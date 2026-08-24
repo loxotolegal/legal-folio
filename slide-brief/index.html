@@ -355,6 +355,7 @@
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
   @keyframes house-reveal { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .sb-slide[data-reveal="queued"] > * { opacity: 0; transform: translateY(6px); }
   .sb-slide[data-reveal="play"] > .title { animation: house-reveal .24s ease-out 0s both; }
   .sb-slide[data-reveal="play"] > .subtitle { animation: house-reveal .24s ease-out .07s both; }
   .sb-slide[data-reveal="play"] > .slide-body,
@@ -380,6 +381,12 @@
   html.harness .sb-slide *, html.harness .sb-slide { animation: none !important; }
   @media (prefers-reduced-motion: reduce) {
     .scrim, .pop, .sb-slide, .sb-slide * { animation: none !important; }
+    .sb-slide[data-reveal="queued"] > * { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 760px) {
+    .stage { min-height: auto; }
+    section[data-v] { flex: 0 0 auto; justify-content: flex-start; }
   }
 
   /* ---- phone ---- */
@@ -577,8 +584,21 @@
   .editor-handle[data-handle="sw"] { left: -5px; bottom: -5px; cursor: nesw-resize; }
   .editor-handle[data-handle="w"] { left: -5px; top: calc(50% - 4px); cursor: ew-resize; }
   #editor-marquee { position: fixed; display: none; border: 1px dashed var(--red); background: color-mix(in srgb, var(--red) 7%, transparent); border-radius: 2px; }
+  #editor-overflow-toggle { display: none !important; }
+  #editor-overflow-menu { display: contents; }
   html[data-mode="edit"] [data-editor-unit] { touch-action: none; }
   html[data-mode="edit"] [data-editor-unit][contenteditable="true"] { user-select: text; touch-action: auto; cursor: text; }
+  @media (max-width: 760px) {
+    html[data-mode="edit"] #editor-overflow-toggle { display: inline-flex !important; }
+    html[data-mode="edit"] #editor-overflow-menu {
+      display: none; position: fixed; top: 54px; right: 72px; z-index: 95;
+      width: min(356px, calc(100vw - 28px)); padding: 10px; gap: 6px; flex-wrap: wrap;
+      border: 1px solid var(--line-strong); border-radius: 4px; background: var(--card);
+      box-shadow: 0 12px 32px rgba(0,0,0,.14);
+    }
+    html[data-mode="edit"] #editor-overflow-menu[data-open="true"] { display: flex; }
+    html[data-mode="edit"][data-editor-menu="open"] .pills { overflow: visible; }
+  }
   @media (max-width: 600px) {
     .editor-pill.editor-tool, select.editor-pill.editor-tool { height: 25px; min-width: 25px; padding: 0 7px; font-size: 9px; }
   }
@@ -587,7 +607,7 @@
 <body>
 <div class="bar" data-export-chrome>
   <p class="matter">Meridian / Halloway Purchase Agreement · Draft 4 · received Aug 18</p>
-  <div class="pills" id="pills"><button class="pill" type="button" data-frame-button="1">1</button><button class="pill" type="button" data-frame-button="2">2</button><button class="pill" type="button" data-frame-button="3">3</button><button class="pill" type="button" data-frame-button="4">4</button><button class="pill" type="button" data-frame-button="5">5</button><button class="pill" type="button" data-frame-button="6">6</button><button class="pill" type="button" data-frame-button="7">7</button><button class="pill" type="button" data-frame-button="8">8</button><button class="editor-pill" id="mode-toggle" type="button" aria-pressed="false" data-editor-only>Edit</button><button class="editor-pill editor-tool" id="editor-undo" type="button" data-editor-only data-editor-tools title="Undo">Undo</button><button class="editor-pill editor-tool" id="editor-redo" type="button" data-editor-only data-editor-tools title="Redo">Redo</button><button class="editor-pill editor-tool" id="editor-duplicate" type="button" data-editor-only data-editor-tools title="Duplicate selection">Duplicate</button><button class="editor-pill editor-tool" id="editor-delete" type="button" data-editor-only data-editor-tools title="Delete selection">Delete</button><button class="editor-pill editor-tool" id="editor-font-down" type="button" data-editor-only data-editor-tools title="Decrease font size">A−</button><button class="editor-pill editor-tool" id="editor-font-up" type="button" data-editor-only data-editor-tools title="Increase font size">A+</button><button class="editor-pill editor-tool" id="editor-bold" type="button" data-editor-only data-editor-tools title="Bold"><b>B</b></button><button class="editor-pill editor-tool" id="editor-italic" type="button" data-editor-only data-editor-tools title="Italic"><i>I</i></button><button class="editor-pill editor-tool" id="editor-underline" type="button" data-editor-only data-editor-tools title="Underline"><u>U</u></button><select class="editor-pill editor-tool" id="editor-text-token" data-editor-only data-editor-tools title="Text color"><option value="">Text</option><option value="--ink">Ink</option><option value="--muted">Muted</option><option value="--faint">Faint</option><option value="--red">Red</option><option value="--red-strong">Strong red</option><option value="--line-strong">Hairline</option></select><select class="editor-pill editor-tool" id="editor-fill-token" data-editor-only data-editor-tools title="Box fill"><option value="">Fill</option><option value="transparent">None</option><option value="--card">Card</option><option value="--card-strong">Raised</option><option value="--tint">Tint</option><option value="--bg">Canvas</option></select><button class="editor-pill editor-tool" id="editor-reset" type="button" data-editor-only data-editor-tools title="Reset selected formatting">Reset</button><button class="editor-pill" id="export-template" type="button" data-editor-only>Export template</button><button class="editor-pill" id="export-html" type="button" data-editor-only>Export HTML</button><button class="editor-pill" id="cycle-alt" type="button" data-editor-only hidden>Alternative</button></div>
+  <div class="pills" id="pills"><button class="pill" type="button" data-frame-button="1">1</button><button class="pill" type="button" data-frame-button="2">2</button><button class="pill" type="button" data-frame-button="3">3</button><button class="pill" type="button" data-frame-button="4">4</button><button class="pill" type="button" data-frame-button="5">5</button><button class="pill" type="button" data-frame-button="6">6</button><button class="pill" type="button" data-frame-button="7">7</button><button class="pill" type="button" data-frame-button="8">8</button><button class="editor-pill" id="mode-toggle" type="button" aria-pressed="false" data-editor-only>Edit</button><button class="editor-pill editor-tool" id="editor-undo" type="button" data-editor-only data-editor-tools title="Undo">Undo</button><button class="editor-pill editor-tool" id="editor-redo" type="button" data-editor-only data-editor-tools title="Redo">Redo</button><button class="editor-pill editor-tool" id="editor-duplicate" type="button" data-editor-only data-editor-tools title="Duplicate selection">Duplicate</button><button class="editor-pill editor-tool" id="editor-delete" type="button" data-editor-only data-editor-tools title="Delete selection">Delete</button><button class="editor-pill editor-tool" id="editor-overflow-toggle" type="button" data-editor-only data-editor-tools aria-expanded="false" aria-controls="editor-overflow-menu" title="More editor tools">»</button><span id="editor-overflow-menu" data-editor-only><button class="editor-pill editor-tool" id="editor-font-down" type="button" data-editor-only data-editor-tools title="Decrease font size">A−</button><button class="editor-pill editor-tool" id="editor-font-up" type="button" data-editor-only data-editor-tools title="Increase font size">A+</button><button class="editor-pill editor-tool" id="editor-bold" type="button" data-editor-only data-editor-tools title="Bold"><b>B</b></button><button class="editor-pill editor-tool" id="editor-italic" type="button" data-editor-only data-editor-tools title="Italic"><i>I</i></button><button class="editor-pill editor-tool" id="editor-underline" type="button" data-editor-only data-editor-tools title="Underline"><u>U</u></button><select class="editor-pill editor-tool" id="editor-text-token" data-editor-only data-editor-tools title="Text color"><option value="">Text</option><option value="--ink">Ink</option><option value="--muted">Muted</option><option value="--faint">Faint</option><option value="--red">Red</option><option value="--red-strong">Strong red</option><option value="--line-strong">Hairline</option></select><select class="editor-pill editor-tool" id="editor-fill-token" data-editor-only data-editor-tools title="Box fill"><option value="">Fill</option><option value="transparent">None</option><option value="--card">Card</option><option value="--card-strong">Raised</option><option value="--tint">Tint</option><option value="--bg">Canvas</option></select><button class="editor-pill editor-tool" id="editor-reset" type="button" data-editor-only data-editor-tools title="Reset selected formatting">Reset</button><button class="editor-pill" id="export-template" type="button" data-editor-only>Export template</button><button class="editor-pill" id="export-html" type="button" data-editor-only>Export HTML</button></span><button class="editor-pill" id="cycle-alt" type="button" data-editor-only hidden>Alternative</button></div>
   <button class="theme-btn" id="theme-toggle" type="button" aria-label="Toggle dark mode"><svg class="i-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"></path></svg><svg class="i-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
   <button class="theme-btn" id="fsBtn" type="button" aria-label="Fullscreen"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></button>
 </div>
@@ -3368,6 +3388,7 @@
   var beatTimes = [];
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var revealTimer = 0;
+  var revealToken = 0;
   var popOpener = null;
 
   function safeJSON(value) {
@@ -3391,6 +3412,8 @@
     if (!slides.length) return;
     frame = Math.max(1, Math.min(slides.length, Number(next) || 1));
     clearTimeout(revealTimer);
+    revealToken += 1;
+    var token = revealToken;
     slides.forEach(function (slide, index) {
       var active = index === frame - 1;
       slide.classList.toggle('on', active);
@@ -3399,9 +3422,18 @@
       if (document.documentElement.classList.contains('harness') || reduceMotion.matches) {
         slide.setAttribute('data-reveal', 'settled');
       } else {
-        void slide.offsetWidth;
-        slide.setAttribute('data-reveal', 'play');
-        revealTimer = setTimeout(function () { if (slide.classList.contains('on')) slide.setAttribute('data-reveal', 'settled'); }, 760);
+        slide.setAttribute('data-reveal', 'queued');
+        var startReveal = function () {
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              if (token !== revealToken || !slide.classList.contains('on')) return;
+              slide.setAttribute('data-reveal', 'play');
+              revealTimer = setTimeout(function () { if (slide.classList.contains('on')) slide.setAttribute('data-reveal', 'settled'); }, 760);
+            });
+          });
+        };
+        if (document.readyState === 'complete') startReveal();
+        else window.addEventListener('pageshow', startReveal, { once: true });
       }
     });
     document.querySelectorAll('[data-frame-button]').forEach(function (button) {
@@ -3634,7 +3666,9 @@
   function all(selector, scope) { return Array.prototype.slice.call((scope || document).querySelectorAll(selector)); }
   function visible(el) { var r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== 'hidden'; }
   function stamp(scope) {
-    all(unitSelector, scope || document).forEach(function (el) {
+    var field = scope || document;
+    var units = all(unitSelector, field).concat(all('h1,h2,h3,h4,p,span,b,i,a,del,ins,mark,figcaption,td,th,text', field));
+    units.filter(function(el,index){return units.indexOf(el)===index&&!el.closest('[data-editor-only]');}).forEach(function (el) {
       if (!el.dataset.editorUnit) el.dataset.editorUnit = '1';
       if (!el.dataset.layoutKey) el.dataset.layoutKey = 'editor.' + kind + '.' + (++serial);
       if (!el.dataset.editorOriginStyle) el.dataset.editorOriginStyle = el.getAttribute('style') || '';
@@ -3690,15 +3724,17 @@
     el.dataset.editorX = String(Math.round(x * 10) / 10); el.dataset.editorY = String(Math.round(y * 10) / 10);
     el.style.transform = (baseTransform(el) + ' translate(' + el.dataset.editorX + 'px,' + el.dataset.editorY + 'px)').trim();
   }
+  function topLevelSelection() { return selection.filter(function(el){return !selection.some(function(other){return other!==el&&other.contains(el);});}); }
   function beginMove(event, unit) {
+    event.preventDefault();
     if (selection.indexOf(unit) < 0) select([unit], event.shiftKey);
-    gesture = { type:'pending-move', x:event.clientX, y:event.clientY, starts:selection.map(function(el){return {el:el,x:tx(el),y:ty(el)};}), saved:false };
+    gesture = { type:'pending-move', x:event.clientX, y:event.clientY, starts:topLevelSelection().map(function(el){return {el:el,x:tx(el),y:ty(el)};}), saved:false };
   }
   function beginResize(event, handle) {
     event.preventDefault(); event.stopPropagation();
     var box = unionRect(selection); if (!box) return;
     checkpoint();
-    gesture = { type:'resize', handle:handle, x:event.clientX, y:event.clientY, box:box, starts:selection.map(function(el){ var r=el.getBoundingClientRect();if(el.dataset.editorBaseTransform==null)el.dataset.editorBaseTransform=el.style.transform||'';return {el:el,rect:r,x:tx(el),y:ty(el),display:el.style.display}; }) };
+    gesture = { type:'resize', handle:handle, x:event.clientX, y:event.clientY, box:box, starts:topLevelSelection().map(function(el){ var r=el.getBoundingClientRect();if(el.dataset.editorBaseTransform==null)el.dataset.editorBaseTransform=el.style.transform||'';return {el:el,rect:r,x:tx(el),y:ty(el),display:el.style.display}; }) };
   }
   function moveGesture(event) {
     if (!gesture) return;
@@ -3724,6 +3760,7 @@
   function endGesture() { gesture = null; }
 
   function beginMarquee(event) {
+    event.preventDefault();
     var m=document.getElementById('editor-marquee');
     gesture={type:'marquee',x:event.clientX,y:event.clientY,base:event.shiftKey?selection.slice():[]};
     m.style.display='block'; m.style.left=event.clientX+'px'; m.style.top=event.clientY+'px'; m.style.width='0'; m.style.height='0';
@@ -3733,12 +3770,15 @@
     event.preventDefault(); var x=Math.min(gesture.x,event.clientX), y=Math.min(gesture.y,event.clientY), right=Math.max(gesture.x,event.clientX), bottom=Math.max(gesture.y,event.clientY);
     var m=document.getElementById('editor-marquee'); m.style.left=x+'px';m.style.top=y+'px';m.style.width=(right-x)+'px';m.style.height=(bottom-y)+'px';
     var hits=activeUnits().filter(function(el){
-      if (el.querySelector('[data-editor-unit]')) return false;
       var r=el.getBoundingClientRect(); return r.right>=x&&r.left<=right&&r.bottom>=y&&r.top<=bottom;
     });
     selection=gesture.base.concat(hits.filter(function(el){return gesture.base.indexOf(el)<0;})); renderSelection(); updateToolbar(); return true;
   }
   function endMarquee() { var m=document.getElementById('editor-marquee'); if(m)m.style.display='none'; gesture=null; }
+  function showTestMarquee(selector) {
+    setMode(true);stamp();var items=all(selector).filter(visible);select(items);var r=unionRect(items),m=document.getElementById('editor-marquee');if(!r||!m)return;
+    m.style.display='block';m.style.left=Math.max(2,r.left-8)+'px';m.style.top=Math.max(54,r.top-8)+'px';m.style.width=(r.width+16)+'px';m.style.height=(r.height+16)+'px';
+  }
 
   function canText(el) { return el && !(el instanceof SVGElement) && !/^(IMG|INPUT|SELECT|BUTTON)$/.test(el.tagName) && !el.querySelector('[data-editor-unit]'); }
   function editText(el) {
@@ -3777,14 +3817,15 @@
   function setMode(on){
     editing=!!on;html.toggleAttribute('data-mode',editing);if(editing)html.setAttribute('data-mode','edit');else html.removeAttribute('data-mode');
     if(modeButton){modeButton.textContent=editing?'Done':'Edit';modeButton.setAttribute('aria-pressed',editing?'true':'false');}
-    if(editing){stamp();if(!document.getElementById('editor-layer'))makeLayer();}else{all('[contenteditable="true"]').forEach(function(el){el.blur();el.removeAttribute('contenteditable');});selection=[];renderSelection();}
+    if(editing){stamp();if(!document.getElementById('editor-layer'))makeLayer();}else{setEditorMenu(false);all('[contenteditable="true"]').forEach(function(el){el.blur();el.removeAttribute('contenteditable');});selection=[];renderSelection();}
     updateToolbar();
   }
+  function setEditorMenu(open){var menu=document.getElementById('editor-overflow-menu'),toggle=document.getElementById('editor-overflow-toggle');open=!!open;if(menu)menu.dataset.open=open?'true':'false';if(toggle)toggle.setAttribute('aria-expanded',open?'true':'false');if(open)html.setAttribute('data-editor-menu','open');else html.removeAttribute('data-editor-menu');}
 
   function scrubClone(template){
     var clone=document.documentElement.cloneNode(true);
     all('[data-editor-only],#editor-layer,#full-editor-style,#full-editor-runtime,#layout-map',clone).forEach(function(el){el.remove();});
-    clone.removeAttribute('data-mode');
+    clone.removeAttribute('data-mode');clone.removeAttribute('data-editor-menu');
     var exportScrim=clone.querySelector('#popup-scrim');if(exportScrim){exportScrim.hidden=true;all('.pop',exportScrim).forEach(function(pop){pop.hidden=true;});}
     all('[data-editor-unit],[data-layout-key],[data-editor-origin-style],[data-editor-x],[data-editor-y],[data-editor-base-transform],[data-editable],[data-editor-object],[data-dx],[data-dy],[contenteditable],[spellcheck]',clone).forEach(function(el){
       ['data-editor-unit','data-layout-key','data-editor-origin-style','data-editor-x','data-editor-y','data-editor-base-transform','data-editable','data-editor-object','data-dx','data-dy','contenteditable','spellcheck'].forEach(function(a){el.removeAttribute(a);});
@@ -3805,10 +3846,12 @@
   function selfTest(){
     setMode(true);stamp();var selector=kind==='slide'?'.title':'.zf-no',initial=all(selector).length,target=all(selector).filter(visible)[0],checks=[];
     var segments=all('.spine .seg'),labels=all('.seg-labels span'),drops=all('.drop .dcard');checks.push(segments.length===10&&segments.every(function(el){return el.dataset.editorUnit==='1';}));checks.push(labels.length===10&&labels.every(function(el){return el.dataset.editorUnit==='1';}));checks.push(drops.length===3&&drops.every(function(el){return el.dataset.editorUnit==='1';}));
+    var shape=all('.icard').filter(visible)[0],label=shape&&shape.querySelector('h3');checks.push(!!shape&&!!label&&shape.dataset.editorUnit==='1'&&label.dataset.editorUnit==='1');checkpoint();setTranslation(label,7,0);checks.push(tx(shape)===0&&tx(label)===7);doUndo();target=all(selector).filter(visible)[0];
     select([target]);duplicateSelection();checks.push(all(selector).length===initial+1);doUndo();checks.push(all(selector).length===initial);doRedo();checks.push(all(selector).length===initial+1);select([all(selector).filter(visible).pop()]);deleteSelection();checks.push(all(selector).length===initial);doUndo();checks.push(all(selector).length===initial+1);
     select([all(selector).filter(visible)[0]]);var before=getComputedStyle(selection[0]).fontSize;changeFont(1);checks.push(getComputedStyle(selection[0]).fontSize!==before);doUndo();
     target=all(selector).filter(visible)[0];select([target]);applyToken('color','--red');checks.push(target.style.color==='var(--red)');doUndo();
     var full=exportHTML(false,false),clean=new DOMParser().parseFromString(full,'text/html');checks.push(!clean.querySelector('[data-editor-only],[data-editor-unit],[data-layout-key],[data-editable],[data-editor-object],[contenteditable],#full-editor-runtime'));
+    checks.push(kind!=='slide'||(clean.querySelectorAll('.sb-slide').length===8&&clean.querySelectorAll('[data-frame-button]').length===8&&clean.documentElement.outerHTML.indexOf('function showFrame')>=0));
     var sample=(kind==='slide'?'The work got better':'Disloyalty or personal benefit'),template=exportHTML(true,false);checks.push(template.indexOf(sample)<0&&template.indexOf('{{text_')>=0);
     return {pass:checks.every(Boolean),checks:checks};
   }
@@ -3816,6 +3859,7 @@
   function bind(id,fn){var el=document.getElementById(id);if(el)el.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();fn();},true);}
   if(modeButton)modeButton.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();setMode(!editing);},true);
   bind('editor-undo',doUndo);bind('editor-redo',doRedo);bind('editor-duplicate',duplicateSelection);bind('editor-delete',deleteSelection);
+  bind('editor-overflow-toggle',function(){setEditorMenu(html.getAttribute('data-editor-menu')!=='open');});
   bind('editor-font-down',function(){changeFont(-1);});bind('editor-font-up',function(){changeFont(1);});
   bind('editor-bold',function(){toggleStyle('fontWeight','700','400');});bind('editor-italic',function(){toggleStyle('fontStyle','italic','normal');});bind('editor-underline',function(){toggleStyle('textDecorationLine','underline','none');});bind('editor-reset',resetSelection);
   var textToken=document.getElementById('editor-text-token');if(textToken)textToken.addEventListener('change',function(e){e.stopImmediatePropagation();applyToken('color',textToken.value);textToken.value='';},true);
@@ -3839,15 +3883,15 @@
     if(mod&&key==='d'&&!typing){event.preventDefault();event.stopImmediatePropagation();duplicateSelection();return;}
     if((event.key==='Delete'||event.key==='Backspace')&&!typing){event.preventDefault();event.stopImmediatePropagation();deleteSelection();return;}
     if(event.key==='Escape'&&!typing){select([]);event.stopImmediatePropagation();return;}
-    if(['arrowleft','arrowright','arrowup','arrowdown'].indexOf(key)>=0&&!typing){event.preventDefault();event.stopImmediatePropagation();var dx=key==='arrowleft'?-1:key==='arrowright'?1:0,dy=key==='arrowup'?-1:key==='arrowdown'?1:0;if(event.shiftKey){dx*=10;dy*=10;}checkpoint();selection.forEach(function(el){setTranslation(el,tx(el)+dx,ty(el)+dy);});renderSelection();}
+    if(['arrowleft','arrowright','arrowup','arrowdown'].indexOf(key)>=0&&!typing){event.preventDefault();event.stopImmediatePropagation();var dx=key==='arrowleft'?-1:key==='arrowright'?1:0,dy=key==='arrowup'?-1:key==='arrowdown'?1:0;if(event.shiftKey){dx*=10;dy*=10;}checkpoint();topLevelSelection().forEach(function(el){setTranslation(el,tx(el)+dx,ty(el)+dy);});renderSelection();}
   },true);
   document.addEventListener('beforeinput',function(event){if(editing&&event.target.closest&&event.target.closest('[contenteditable="true"]')&&!textUndoArmed){checkpoint();textUndoArmed=true;}},true);
   document.addEventListener('input',function(event){if(editing&&event.target.closest&&event.target.closest('[contenteditable="true"]'))renderSelection();},true);
 
   window.buildExport=function(){return exportHTML(false,false);};window.buildTemplateExport=function(){return exportHTML(true,false);};window.exportTemplateHTML=window.buildTemplateExport;
-  window.__fullEditor={setMode:setMode,isEditing:function(){return editing;},select:function(selector){stamp();select(all(selector).filter(visible));},duplicate:duplicateSelection,remove:deleteSelection,undo:doUndo,redo:doRedo,exportHTML:function(){return exportHTML(false,false);},exportTemplate:function(){return exportHTML(true,false);},selfTest:selfTest};
+  window.__fullEditor={setMode:setMode,isEditing:function(){return editing;},select:function(selector){stamp();select(all(selector).filter(visible));},showMarquee:showTestMarquee,openMenu:setEditorMenu,duplicate:duplicateSelection,remove:deleteSelection,undo:doUndo,redo:doRedo,exportHTML:function(){return exportHTML(false,false);},exportTemplate:function(){return exportHTML(true,false);},selfTest:selfTest};
   updateToolbar();
-  var params=new URLSearchParams(location.search);if(params.get('mode')==='edit')setMode(true);if(params.get('select'))window.__fullEditor.select(params.get('select'));if(params.get('selftest'))html.dataset.editorSelftest=JSON.stringify(selfTest());if(params.get('export-preview')){var preview=exportHTML(params.get('export-preview')==='template',false);location.replace(URL.createObjectURL(new Blob([preview],{type:'text/html'})));}
+  var params=new URLSearchParams(location.search);if(params.get('mode')==='edit')setMode(true);if(params.get('select'))window.__fullEditor.select(params.get('select'));if(params.get('marquee'))showTestMarquee(params.get('marquee')==='1'?'.drop .dcard':params.get('marquee'));if(params.get('menu')==='open'){setMode(true);setEditorMenu(true);}if(params.get('selftest'))html.dataset.editorSelftest=JSON.stringify(selfTest());if(params.get('export-preview')){var preview=exportHTML(params.get('export-preview')==='template',false);location.replace(URL.createObjectURL(new Blob([preview],{type:'text/html'})));}
 })();
 </script>
 </body>
