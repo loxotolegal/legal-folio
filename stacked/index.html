@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="light" data-animated="yes" data-beat-ms="500">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,7 +20,6 @@
     --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
     --serif: Charter, "Iowan Old Style", Georgia, serif;
     --mono: "SFMono-Regular", Menlo, Consolas, monospace;
-    --beat-time: 500ms;
   }
   [data-theme="dark"] {
     color-scheme: dark;
@@ -85,21 +84,23 @@
   /* ---- zones diagram, house dialect ---- */
   .zones-fig { border: 1px solid var(--line-strong); border-radius: 4px; overflow: hidden; box-shadow: var(--shadow-soft); }
   .zf-a { background: var(--tint); padding: 16px 18px 18px; }
-  .zf-a .zl { margin: 0 0 10px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--muted); }
-  .zf-covered { border: 1px solid var(--line-strong); border-radius: 4px; background: var(--card); padding: 14px 12px; text-align: center; }
+  .zf-a .zl { margin: 0 0 10px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--muted); text-align: center; }
+  .zf-covered { position: relative; width: 100%; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--card); padding: 14px 34px 14px 12px; text-align: center; }
   .zf-covered b { display: block; font-size: 15px; font-weight: 600; }
   .zf-covered i { display: block; margin-top: 4px; font-style: normal; font-size: 12px; line-height: 1.4; color: var(--muted); }
   .zf-mid { display: flex; align-items: center; gap: 10px; padding: 10px 18px; background: var(--card); }
-  .zf-mid span:first-child { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--ink); font-weight: 600; }
-  .zf-mid span:last-child { flex: 1 1 auto; height: 1px; background: var(--line-strong); }
+  .zf-mid .zf-rule { flex: 1 1 auto; height: 1px; background: var(--line-strong); }
+  .zf-mid .zf-line-label { flex: 0 0 auto; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--ink); font-weight: 600; text-align: center; }
   .zf-b { background: var(--card); border-top: 2px solid var(--red); padding: 14px 18px 18px; }
-  .zf-b .zl { margin: 0 0 10px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--red); }
+  .zf-b .zl { margin: 0 0 10px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--red); text-align: center; }
   .zf-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-  .zf-no { border: 1px solid var(--red); border-radius: 4px; background: var(--red-wash); padding: 12px 10px; text-align: center; }
+  .zf-no { position: relative; width: 100%; border: 1px solid var(--red); border-radius: 4px; background: var(--red-wash); padding: 12px 30px 12px 10px; text-align: center; }
   /* Dark-mode law: never fill a box with the accent in dark — outline only. */
   [data-theme="dark"] .zf-no { background: transparent; }
   .zf-no b { display: block; font-size: 13px; font-weight: 600; line-height: 1.25; }
   .zf-no i { display: block; margin-top: 4px; font-style: normal; font-size: 11px; line-height: 1.35; color: var(--muted); }
+  .zf-covered .chev, .zf-no .chev { position: absolute; right: 9px; top: 50%; transform: translateY(-50%); }
+  .zf-covered:hover, .zf-no:hover { border-color: var(--red); color: var(--red); }
   .fig-cap { margin: 12px 2px 0; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
 
   /* ---- compare-two diagram, house dialect ---- */
@@ -120,7 +121,7 @@
   .exp .k-l { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--red); }
   .exp .k-r { font-family: var(--mono); font-size: 10.5px; color: var(--faint); }
   .exp h2 { margin: 10px 0 0; font-size: clamp(22px, 2.4vw, 32px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
-  .exp .ans { margin: 10px 0 0; font-size: 14.5px; line-height: 1.55; color: var(--muted); max-width: 94ch; }
+  .exp .ans { margin: 10px 0 0; width: 100%; max-width: none; font-size: 14.5px; line-height: 1.55; color: var(--muted); }
   .exp .ans b { color: var(--ink); }
   .cite { font-family: var(--mono); font-size: 12px; color: var(--red); text-decoration: none; border-bottom: 1px solid var(--red-wash); }
   .exp-row { display: flex; gap: 14px; margin-top: 20px; align-items: stretch; }
@@ -355,14 +356,7 @@
 
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-  @keyframes house-reveal { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-  [data-reveal="queued"] [data-house-beat],
-  [data-reveal="play"] [data-house-beat] { opacity: 0; transform: translateY(6px); }
-  [data-reveal="play"] [data-house-beat] { animation: house-reveal .28s ease-out calc(var(--beat-index, 0) * var(--beat-time)) both; }
-  [data-reveal="settled"] [data-house-beat],
-  html[data-animated="no"] [data-house-beat] { opacity: 1; transform: none; animation: none !important; }
-  html.harness [data-house-beat] { opacity: 1 !important; transform: none !important; }
-  @media (prefers-reduced-motion: reduce) { .scrim, .pop, [data-house-beat] { animation: none !important; opacity: 1 !important; transform: none !important; } }
+  @media (prefers-reduced-motion: reduce) { .scrim, .pop { animation: none !important; } }
 
   /* ---- phone ---- */
   @media (max-width: 760px) {
@@ -547,9 +541,6 @@
   .editor-pill.editor-tool:disabled { opacity: .35; cursor: default; }
   .editor-pill.editor-tool[aria-pressed="true"] { border-color: var(--red); color: var(--red); }
   .animation-pill[aria-pressed="true"] { color: var(--ink); }
-  .editor-beat-control { height: 27px; padding: 0 8px; gap: 7px; align-items: center; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--card); color: var(--ink); font: 600 10px/1 var(--mono); white-space: nowrap; }
-  .editor-beat-control input { width: 92px; accent-color: var(--red); }
-  .editor-beat-control output { min-width: 3.7ch; color: var(--muted); }
   #editor-layer { position: fixed; inset: 0; z-index: 90; pointer-events: none; }
   #editor-selection-box { position: fixed; border: 1px solid var(--red); border-radius: 2px; box-sizing: border-box; display: none; }
   .editor-handle { position: absolute; width: 9px; height: 9px; border: 1px solid var(--red); border-radius: 2px; background: var(--card); pointer-events: auto; }
@@ -579,7 +570,6 @@
   }
   @media (max-width: 600px) {
     .editor-pill.editor-tool, select.editor-pill.editor-tool { height: 25px; min-width: 25px; padding: 0 7px; font-size: 9px; }
-    .editor-beat-control { height: 25px; font-size: 9px; }
   }
 </style>
 </head>
@@ -603,8 +593,8 @@
         </div>
         <div class="exp-fig" id="diagram-host" data-editor-object>
           <p class="fig-h">What the shield covers, and what it never covers</p>
-          <div class="zones-fig"><div class="zf-a"><p class="zl">COVERED BY THE SHIELD</p><div class="zf-covered"><b>Careless-decision suits</b><i>A shareholder sues the officer directly for money over a careless decision.</i></div></div><div class="zf-mid"><span>THE CHARTER LINE</span><span></span></div><div class="zf-b"><p class="zl">NEVER COVERED</p><div class="zf-grid"><div class="zf-no"><b>Disloyalty or personal benefit</b></div><div class="zf-no"><b>Bad faith</b></div><div class="zf-no"><b>The company itself sues</b></div>
-</div></div></div>
+          <div class="zones-fig"><div class="zf-a"><p class="zl">COVERED BY THE SHIELD</p><button class="zf-covered" type="button" data-pop="zone-careless"><b>Careless-decision suits</b><i>A shareholder sues the officer directly for money over a careless decision.</i><svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></button></div><div class="zf-mid"><span class="zf-rule"></span><span class="zf-line-label">THE CHARTER LINE</span><span class="zf-rule"></span></div><div class="zf-b"><p class="zl">NEVER COVERED</p><div class="zf-grid"><button class="zf-no" type="button" data-pop="zone-disloyalty"><b>Disloyalty or personal benefit</b><svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></button><button class="zf-no" type="button" data-pop="zone-bad-faith"><b>Bad faith</b><svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></button><button class="zf-no" type="button" data-pop="zone-company-sues"><b>The company itself sues</b><svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></button></div>
+</div></div>
           <div class="statute"><div class="s-t"><span style="font-family: var(--mono); font-size: 11px; color: var(--muted);">§102(b)&nbsp;&nbsp;</span>(7) A provision eliminating or limiting the personal liability of a <ins>director or officer</ins> to the corporation or its stockholders for monetary damages for breach of fiduciary duty…</div><p class="s-f">Official source · delcode.delaware.gov · captured Aug 19, 2026 · highlight added</p></div>
       </div>
         <div class="exp-side">
@@ -617,6 +607,38 @@
   </section>
 </main>
 <div class="scrim" id="popup-scrim" hidden>
+  <div class="pop" id="zone-careless" hidden role="dialog" aria-modal="true" aria-labelledby="zone-careless-t">
+    <button class="pop-close" type="button" aria-label="Close source popup">&#215;</button>
+    <p class="tag" data-editable>Covered · 8 Del. C. §102(b)(7)</p>
+    <h2 id="zone-careless-t" data-editable>What a covered suit alleges</h2>
+    <p class="desc" data-editable>A stockholder sues the officer directly for money, claiming a decision was careless — that the officer acted without enough information or attention and so breached the duty of care. With the charter provision in place, the officer does not pay personal monetary damages on that claim. The duty itself remains; the shield removes only the damages remedy.</p>
+    <div class="doc" data-zone-doc="grant"></div>
+    <p class="out"><a href="https://delcode.delaware.gov/title8/c001/sc01/index.html#102" target="_blank" rel="noopener noreferrer" data-editable>Open official §102 text ↗</a></p>
+  </div>
+  <div class="pop" id="zone-disloyalty" hidden role="dialog" aria-modal="true" aria-labelledby="zone-disloyalty-t">
+    <button class="pop-close" type="button" aria-label="Close source popup">&#215;</button>
+    <p class="tag" data-editable>Never covered · §102(b)(7)(i), (iv)</p>
+    <h2 id="zone-disloyalty-t" data-editable>What a disloyalty suit alleges</h2>
+    <p class="desc" data-editable>The claim is that the officer put personal interest ahead of the corporation — self-dealing, taking a corporate opportunity, or receiving an improper personal benefit. That alleges a breach of the duty of loyalty, and the statute does not let a charter shield it.</p>
+    <div class="doc" data-zone-doc="carveouts"></div>
+    <p class="out"><a href="https://delcode.delaware.gov/title8/c001/sc01/index.html#102" target="_blank" rel="noopener noreferrer" data-editable>Open official §102 text ↗</a></p>
+  </div>
+  <div class="pop" id="zone-bad-faith" hidden role="dialog" aria-modal="true" aria-labelledby="zone-bad-faith-t">
+    <button class="pop-close" type="button" aria-label="Close source popup">&#215;</button>
+    <p class="tag" data-editable>Never covered · §102(b)(7)(ii)</p>
+    <h2 id="zone-bad-faith-t" data-editable>What a bad-faith suit alleges</h2>
+    <p class="desc" data-editable>The claim is that the officer acted in bad faith — intentional misconduct, a knowing violation of law, or acts or omissions not in good faith. Carelessness can be shielded; knowing wrongdoing cannot.</p>
+    <div class="doc" data-zone-doc="carveouts"></div>
+    <p class="out"><a href="https://delcode.delaware.gov/title8/c001/sc01/index.html#102" target="_blank" rel="noopener noreferrer" data-editable>Open official §102 text ↗</a></p>
+  </div>
+  <div class="pop" id="zone-company-sues" hidden role="dialog" aria-modal="true" aria-labelledby="zone-company-sues-t">
+    <button class="pop-close" type="button" aria-label="Close source popup">&#215;</button>
+    <p class="tag" data-editable>Never covered · §102(b)(7)(v)</p>
+    <h2 id="zone-company-sues-t" data-editable>What a corporate or derivative suit alleges</h2>
+    <p class="desc" data-editable>Here the corporation is the plaintiff — directly, or through a stockholder suing on its behalf in a derivative claim. The provision blocks only direct stockholder claims for money; claims by or in the right of the corporation stay live against officers.</p>
+    <div class="doc" data-zone-doc="carveouts"></div>
+    <p class="out"><a href="https://delcode.delaware.gov/title8/c001/sc01/index.html#102" target="_blank" rel="noopener noreferrer" data-editable>Open official §102 text ↗</a></p>
+  </div>
   <div class="pop" id="cite-102" hidden role="dialog" aria-modal="true" aria-labelledby="cite-102-t">
     <button class="pop-close" type="button" aria-label="Close source popup">&#215;</button>
     <p class="tag" data-editable>8 Del. C. §102(b)(7)</p>
@@ -3174,8 +3196,6 @@
   var frame = 1;
   var beatTimes = [];
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  var revealTimer = 0;
-  var revealToken = 0;
 
   function safeJSON(value) {
     return JSON.stringify(value).replace(/</g, '\\u003c');
@@ -3192,22 +3212,6 @@
     if (query === 'light' || query === 'dark') return query;
     return localStorage.getItem('visualize-theme') === 'dark' ? 'dark' : 'light';
   }
-
-  function beatMS() { return Math.max(150, Math.min(1500, Number(document.documentElement.dataset.beatMs) || 500)); }
-  function setAnimationConfig(enabled, milliseconds) {
-    var root=document.documentElement,ms=Math.max(150,Math.min(1500,Number(milliseconds)||500));root.dataset.animated=enabled?'yes':'no';root.dataset.beatMs=String(ms);root.style.setProperty('--beat-time',ms+'ms');
-    var toggle=document.getElementById('animation-toggle');if(toggle){toggle.textContent='Animated: '+(enabled?'Yes':'No');toggle.setAttribute('aria-pressed',enabled?'true':'false');}
-    var slider=document.getElementById('beat-time-slider'),output=document.getElementById('beat-time-output');if(slider)slider.value=String(ms);if(output)output.textContent=(ms/1000).toFixed(2)+'s';
-  }
-  function ensureAnimationControls() {
-    var pills=document.getElementById('pills'),mode=document.getElementById('mode-toggle'),toggle=document.getElementById('animation-toggle');if(pills&&!toggle){toggle=document.createElement('button');toggle.id='animation-toggle';toggle.type='button';toggle.className='editor-pill animation-pill';pills.insertBefore(toggle,mode||null);}
-    var menu=document.getElementById('editor-overflow-menu'),anchor=document.getElementById('export-template'),control=document.getElementById('editor-beat-control');if(menu&&!control){control=document.createElement('label');control.id='editor-beat-control';control.className='editor-beat-control';control.setAttribute('data-editor-only','');control.setAttribute('data-editor-tools','');control.appendChild(document.createTextNode('Time per beat'));var slider=document.createElement('input');slider.id='beat-time-slider';slider.type='range';slider.min='150';slider.max='1500';slider.step='50';control.appendChild(slider);var output=document.createElement('output');output.id='beat-time-output';output.setAttribute('for','beat-time-slider');control.appendChild(output);menu.insertBefore(control,anchor||null);}
-    if(toggle&&!toggle.__animationBound){toggle.__animationBound=true;toggle.addEventListener('click',function(){var enabled=document.documentElement.dataset.animated!=='yes';setAnimationConfig(enabled,beatMS());if(enabled)playStacked();else settleReveal();});}
-    var range=document.getElementById('beat-time-slider');if(range&&!range.__animationBound){range.__animationBound=true;range.addEventListener('input',function(){setAnimationConfig(document.documentElement.dataset.animated!=='no',range.value);});}
-  }
-  function assignHouseBeats(root){root.querySelectorAll('[data-house-beat]').forEach(function(el){el.removeAttribute('data-house-beat');el.style.removeProperty('--beat-index');});var max=0;function mark(selector,index){root.querySelectorAll(selector).forEach(function(el){el.setAttribute('data-house-beat','');el.style.setProperty('--beat-index',String(index));max=Math.max(max,index);});}mark('.kicker',0);mark(':scope > h2',1);mark(':scope > .ans',2);mark('.fig-h',3);mark('.zf-a',4);mark('.zf-mid',5);mark('.zf-b',6);mark('.zf-no:nth-child(1)',7);mark('.zf-no:nth-child(2)',8);mark('.zf-no:nth-child(3)',9);mark('.exp-side:first-child .qcard:nth-child(1)',10);mark('.exp-side:first-child .qcard:nth-child(2)',11);mark('.exp-side:last-child .qcard:nth-child(1)',12);mark('.exp-side:last-child .qcard:nth-child(2)',13);mark('.statute',14);mark(':scope > .scope',15);root.dataset.houseMaxBeat=String(max);return max;}
-  function settleReveal(){revealToken+=1;var root=document.querySelector('.exp');if(root)root.setAttribute('data-reveal','settled');clearTimeout(revealTimer);}
-  function playStacked(){var root=document.querySelector('.exp');if(!root)return;clearTimeout(revealTimer);var token=++revealToken,maxBeat=assignHouseBeats(root);if(document.documentElement.classList.contains('harness')||reduceMotion.matches||document.documentElement.dataset.animated==='no'){root.setAttribute('data-reveal','settled');return;}root.setAttribute('data-reveal','queued');var start=function(){requestAnimationFrame(function(){requestAnimationFrame(function(){if(token!==revealToken)return;root.setAttribute('data-reveal','play');revealTimer=setTimeout(function(){root.setAttribute('data-reveal','settled');},maxBeat*beatMS()+360);});});};if(document.readyState==='complete')start();else window.addEventListener('pageshow',start,{once:true});}
 
   function showFrame(next, updateURL) {
     var slides = Array.prototype.slice.call(document.querySelectorAll('.sb-slide'));
@@ -3242,10 +3246,24 @@
     return timeline;
   }
 
+  function hydrateZoneDoc(pop) {
+    var target = pop && pop.querySelector('[data-zone-doc]');
+    if (!target || target.dataset.hydrated === 'true') return;
+    var source = document.querySelector('#cite-102 .doc');
+    if (!source) return;
+    var selectors = target.dataset.zoneDoc === 'grant' ? ['.doc-text', '.doc-foot'] : ['.doc-cl', '.exhibit-shot', '.doc-foot'];
+    selectors.forEach(function (selector) {
+      var node = source.querySelector(selector);
+      if (node) target.appendChild(node.cloneNode(true));
+    });
+    target.dataset.hydrated = 'true';
+  }
+
   function openPopup(id) {
     var scrim = document.getElementById('popup-scrim');
     var pop = document.getElementById(id);
     if (!scrim || !pop) return;
+    hydrateZoneDoc(pop);
     scrim.querySelectorAll('.pop').forEach(function (item) { item.hidden = item !== pop; });
     scrim.hidden = false; pop.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -3402,16 +3420,12 @@
   });
 
   applyTheme(initialTheme(), false);
-  ensureAnimationControls();
-  setAnimationConfig(params.get('animated')==='no'?false:document.documentElement.dataset.animated!=='no',params.get('beat')||document.documentElement.dataset.beatMs||500);
   bindEditable();
-
-  playStacked();
 
   if (params.get('popup')) openPopup(params.get('popup'));
   safeJSON(STACKED_DATA);
+  safeJSON(reduceMotion.matches);
   paintBeatRail();
-  window.__houseAnimation={setEnabled:function(on){setAnimationConfig(!!on,beatMS());if(on)playStacked();else settleReveal();},setBeatMS:function(ms){setAnimationConfig(document.documentElement.dataset.animated!=='no',ms);},settle:settleReveal,replay:playStacked};
 })();
 </script>
 
@@ -3627,7 +3641,7 @@
     select([all(selector).filter(visible)[0]]);var before=getComputedStyle(selection[0]).fontSize;changeFont(1);checks.push(getComputedStyle(selection[0]).fontSize!==before);doUndo();
     target=all(selector).filter(visible)[0];select([target]);applyToken('color','--red');checks.push(target.style.color==='var(--red)');doUndo();
     var full=exportHTML(false,false),clean=new DOMParser().parseFromString(full,'text/html');checks.push(!clean.querySelector('[data-editor-only],[data-editor-unit],[data-layout-key],[data-editable],[data-editor-object],[contenteditable],#full-editor-runtime'));
-    checks.push(clean.documentElement.dataset.animated==='yes'&&clean.documentElement.dataset.beatMs==='500'&&!!clean.querySelector('#animation-toggle')&&!clean.querySelector('#beat-time-slider'));
+    checks.push(!clean.documentElement.hasAttribute('data-animated')&&!clean.documentElement.hasAttribute('data-beat-ms')&&!clean.querySelector('#animation-toggle,#beat-time-slider'));
     var sample=(kind==='slide'?'The work got better':'Disloyalty or personal benefit'),template=exportHTML(true,false);checks.push(template.indexOf(sample)<0&&template.indexOf('{{text_')>=0);
     return {pass:checks.every(Boolean),checks:checks};
   }
