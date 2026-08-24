@@ -1,4 +1,5 @@
-<title>Legal Folio</title>
+<meta charset="utf-8">
+<title>Slide Brief Redesign</title>
 
 <style>
   /* ============ HOUSE TOKENS — red grotesque ============
@@ -67,11 +68,11 @@
 
   /* ---- slide stage ---- */
   .stage {
-    display: flex; flex-direction: column;
-    padding: 76px clamp(18px, 4vw, 56px) 40px;
+    min-height: 100dvh; display: flex; flex-direction: column;
+    padding: calc(52px + clamp(24px, 5vh, 56px)) clamp(18px, 4vw, 56px) clamp(20px, 4vh, 40px);
     max-width: 1240px; margin: 0 auto;
   }
-  section[data-v] { display: none; flex-direction: column; }
+  section[data-v] { display: none; flex: 1 1 auto; flex-direction: column; justify-content: center; }
   section[data-v].on { display: flex; }
 
   .title { margin: 0; font-size: clamp(34px, 4.6vw, 60px); font-weight: 700; letter-spacing: -0.022em; line-height: 1.02; }
@@ -226,43 +227,6 @@
     .dcard::before { display: none; }
     .foot { flex-direction: column; gap: 6px; }
   }
-
-  /* Compact phone sizing — every view fits one screen by DESIGN. */
-  @media (max-width: 480px) {
-    .stage { padding: 76px 14px 14px; }
-    .title { font-size: 25px; }
-    .subtitle { font-size: 12.5px; margin-top: 7px; }
-    .cards { gap: 8px; margin-top: 13px; }
-    .icard { padding: 11px 12px 9px; gap: 5px; min-height: 0; }
-    .icard h3 { font-size: 16px; }
-    .icard p { font-size: 11.5px; }
-    .icard .act { padding-top: 5px; font-size: 11.5px; }
-    .foot { margin-top: 12px; padding-top: 9px; gap: 3px; }
-    .agreed-line, .closer { font-size: 11px; line-height: 1.4; }
-    .hint { font-size: 10.5px; }
-    .zones { margin-top: 13px; }
-    .zone-a { padding: 9px 12px 9px; }
-    .zone-a .zc { font-size: 12px; line-height: 1.45; }
-    .zone-a .zl, .zone-b .zl { font-size: 9.5px; margin-bottom: 6px; }
-    .zone-b { padding: 9px 12px 11px; }
-    .zone-b .zgrid { gap: 7px; }
-    .zcard { padding: 9px 11px 8px; gap: 3px; }
-    .zcard h3 { font-size: 14.5px; }
-    .zcard p { font-size: 11px; }
-    .split { gap: 8px; }
-    .split .lead p.big-n { font-size: 64px; }
-    .split .lead h2 { font-size: 19px; margin-top: 6px; }
-    .split .lead p:not(.big-n) { font-size: 12px; margin-top: 5px; }
-    .rows { gap: 7px; }
-    .rrow { padding: 10px 12px; gap: 10px; }
-    .rrow h3 { font-size: 14.5px; }
-    .rrow p { font-size: 11px; margin-top: 2px; }
-    .trackwrap { margin-top: 11px; }
-    .legend { font-size: 10px; margin-bottom: 5px; }
-    .seg-labels span { font-size: 8px; }
-    .drop { gap: 7px; margin-top: 9px; }
-    .track-cap { font-size: 11px; margin-top: 9px; }
-  }
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -274,7 +238,7 @@ no scatter-bold; no dead quadrants; three layers (slide, popup, source).
 
 <div class="bar">
   <p class="matter">Meridian / Halloway Purchase Agreement &#183; Draft 4 &#183; received Aug 18</p>
-  <div class="pills" id="pills" role="group" aria-label="Design alternative"><button type="button" class="pill" data-v="A" aria-current="true">A &#183; Cards</button><button type="button" class="pill" data-v="B" aria-current="false">B &#183; Zones</button><button type="button" class="pill" data-v="C" aria-current="false">C &#183; Agenda</button><button type="button" class="pill" data-v="D" aria-current="false">D &#183; Track</button></div>
+  <div class="pills" id="pills" role="group" aria-label="Design alternative"></div>
   <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark mode"><svg class="i-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"></path></svg><svg class="i-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
   <button class="theme-btn" id="fsBtn" type="button" aria-label="Fullscreen"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></button>
 </div>
@@ -282,7 +246,7 @@ no scatter-bold; no dead quadrants; three layers (slide, popup, source).
 <div class="stage">
 
   <!-- ============ A · ISSUE CARDS ============ -->
-  <section data-v="A" class="on" aria-label="A: issue cards">
+  <section data-v="A" aria-label="A: issue cards">
     <h1 class="title">Three issues remain open.</h1>
     <p class="subtitle">Everything else in Draft 4 is agreed, and none of the three moves the price.</p>
 
@@ -531,8 +495,14 @@ no scatter-bold; no dead quadrants; three layers (slide, popup, source).
     });
     try { localStorage.setItem('sbv4-variant', v); } catch (e) {}
   }
-  Array.prototype.slice.call(pillsWrap.querySelectorAll('.pill')).forEach(function (b) {
-    b.addEventListener('click', function () { setVariant(b.dataset.v); });
+  VARIANTS.forEach(function (v) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'pill';
+    b.dataset.v = v;
+    b.innerHTML = NAMES[v];
+    b.addEventListener('click', function () { setVariant(v); });
+    pillsWrap.appendChild(b);
   });
 
   function setTheme(t) {
@@ -599,3 +569,4 @@ no scatter-bold; no dead quadrants; three layers (slide, popup, source).
   setTheme(t === 'dark' ? 'dark' : 'light');
 })();
 </script>
+
