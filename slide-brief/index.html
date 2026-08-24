@@ -24,11 +24,11 @@
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #131313; --card: #1d1d1d; --card-strong: #232323;
+  --bg: #131313; --card: #1d1d1d; --card-strong: #202020;
   --ink: #f2f2f0; --muted: #b4b4b0; --faint: #8d8d89;
   --line: rgba(242, 242, 240, 0.14); --line-strong: rgba(242, 242, 240, 0.32);
   --red: #ff5a4e; --red-strong: #ff7d73; --red-wash: rgba(255, 90, 78, 0.12);
-  --insert: #6fa0ff; --strike: #ff5a4e;
+  --insert: #2456d6; --strike: #ff5a4e;
   --tint: #202020; --scrim: rgba(0, 0, 0, 0.68);
   --shadow: 0 22px 60px rgba(0, 0, 0, 0.6);
   --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.35);
@@ -707,7 +707,7 @@ html[data-mode="edit"] .sb-panel { display: flex; }
   color: var(--accent-strong);
 }
 .sb-comp-tools .sb-sep { width: 1px; height: 14px; background: var(--line-strong); }
-.sb-sel-ring { fill: none; stroke: var(--os-accent, #9a6734); stroke-width: 1.2; stroke-dasharray: 4 3; pointer-events: none; }
+.sb-sel-ring { fill: none; stroke: var(--os-accent, #c92014); stroke-width: 1.2; stroke-dasharray: 4 3; pointer-events: none; }
 html[data-mode="edit"] [data-host] [data-comp] { cursor: move; }
 
 /* ── the mini text prompt for a component's own words ────────────────── */
@@ -5315,7 +5315,12 @@ html[data-runtime="on"] #stage {
   try { var stored = localStorage.getItem(THEME_KEY); if (stored === 'dark' || stored === 'light') theme = stored; } catch (e) { void e; }
   if (params.get('theme') === 'dark' || params.get('theme') === 'light') theme = params.get('theme');
   paintTheme(theme, false);
-  if (params.get('aspect') === 'portrait') root.setAttribute('data-aspect', 'portrait');
+  var requestedAspect = params.get('aspect');
+  if (requestedAspect === 'portrait' || (!requestedAspect && window.innerWidth <= 600)) {
+    root.setAttribute('data-aspect', 'portrait');
+  } else if (requestedAspect === 'deck') {
+    root.setAttribute('data-aspect', 'deck');
+  }
 
   /* the rail is built here so the rest state stays a plain document */
   var rail = document.createElement('nav');
