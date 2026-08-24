@@ -1,0 +1,373 @@
+<title>House Style Mockups</title>
+
+<style>
+  /* ============ HOUSE TOKENS — red grotesque ============
+     Red marks what is OPEN, cannot be covered, or needs a decision. Nothing else. */
+  :root, [data-theme="light"] {
+    color-scheme: light;
+    --bg: #fbfbfb; --card: #ffffff; --card-strong: #ffffff;
+    --ink: #111111; --muted: #565656; --faint: #7d7d7d;
+    --line: rgba(17, 17, 17, 0.13); --line-strong: rgba(17, 17, 17, 0.3);
+    --red: #c92014; --red-strong: #a01a10; --red-wash: rgba(201, 32, 20, 0.055);
+    --insert: #2456d6; --strike: #c92014;
+    --tint: #f3f3f3; --scrim: rgba(17, 17, 17, 0.52);
+    --shadow: 0 22px 60px rgba(17, 17, 17, 0.18);
+    --shadow-soft: 0 1px 3px rgba(17, 17, 17, 0.08), 0 6px 18px rgba(17, 17, 17, 0.05);
+    --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --serif: Charter, "Iowan Old Style", Georgia, serif;
+    --mono: "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  [data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #131313; --card: #1d1d1d; --card-strong: #232323;
+    --ink: #f2f2f0; --muted: #b4b4b0; --faint: #8d8d89;
+    --line: rgba(242, 242, 240, 0.14); --line-strong: rgba(242, 242, 240, 0.32);
+    --red: #ff5a4e; --red-strong: #ff7d73; --red-wash: rgba(255, 90, 78, 0.12);
+    --insert: #6fa0ff; --strike: #ff5a4e;
+    --tint: #202020; --scrim: rgba(0, 0, 0, 0.68);
+    --shadow: 0 22px 60px rgba(0, 0, 0, 0.6);
+    --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+  :focus:not(:focus-visible) { outline: none; }
+
+  .bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px clamp(16px, 3vw, 40px);
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(6px); border-bottom: 1px solid var(--line);
+  }
+  .bar p { margin: 0; font-size: 12px; color: var(--muted); flex: 1 1 auto; }
+  .pills { display: flex; gap: 2px; border: 1px solid var(--line-strong); padding: 2px; background: var(--card); }
+  .pill { border: none; background: transparent; padding: 5px 13px; font-size: 12.5px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+  .pill[aria-current="true"] { background: var(--ink); color: var(--bg); }
+  .pill:hover:not([aria-current="true"]) { color: var(--ink); }
+  .theme-btn { border: 1px solid var(--line-strong); background: var(--card); width: 34px; height: 30px; padding: 0; display: flex; align-items: center; justify-content: center; color: var(--muted); flex: 0 0 auto; }
+  .theme-btn:hover { color: var(--ink); }
+  [data-theme="light"] .theme-btn .i-sun { display: none; }
+  [data-theme="dark"] .theme-btn .i-moon { display: none; }
+
+  .stage { min-height: 100dvh; display: flex; flex-direction: column; padding: calc(52px + clamp(20px, 4vh, 44px)) clamp(18px, 4vw, 56px) clamp(20px, 4vh, 40px); max-width: 1240px; margin: 0 auto; }
+  section[data-v] { display: none; flex: 1 1 auto; flex-direction: column; justify-content: center; }
+  section[data-v].on { display: flex; }
+
+  .title { margin: 0; font-size: clamp(30px, 4vw, 52px); font-weight: 700; letter-spacing: -0.022em; line-height: 1.05; }
+  .subtitle { margin: 12px 0 0; font-size: clamp(14px, 1.4vw, 17px); line-height: 1.5; color: var(--muted); max-width: 66ch; }
+  .sec-tag { font-family: var(--mono); font-size: 12px; color: var(--red); }
+  .chev { color: var(--faint); flex: 0 0 auto; }
+  .foot { display: flex; justify-content: space-between; gap: 18px; align-items: baseline; border-top: 1px solid var(--line); padding-top: 14px; margin-top: clamp(26px, 5vh, 44px); flex-wrap: wrap; }
+  .foot p { margin: 0; font-size: 13px; color: var(--muted); }
+
+  .body-row { display: flex; gap: clamp(24px, 3.5vw, 52px); margin-top: clamp(22px, 4vh, 40px); align-items: flex-start; }
+  .figure { flex: 1.25 1 0; min-width: 0; }
+  .points { flex: 1 1 0; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .sub {
+    display: flex; align-items: center; gap: 14px; width: 100%; text-align: left;
+    background: var(--card); border: 1px solid var(--line-strong); border-radius: 4px;
+    box-shadow: var(--shadow-soft); padding: 15px 16px;
+    transition: transform .15s ease, border-color .15s ease;
+  }
+  .sub:hover { transform: translateX(3px); border-color: var(--red); }
+  .sub .mid { flex: 1 1 auto; }
+  .sub h3 { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.25; }
+  .sub p { margin: 3px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--muted); }
+
+  /* ---- zones diagram, house dialect ---- */
+  .zones-fig { border: 1px solid var(--line-strong); border-radius: 4px; overflow: hidden; box-shadow: var(--shadow-soft); }
+  .zf-a { background: var(--tint); padding: 16px 18px 18px; }
+  .zf-a .zl { margin: 0 0 10px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--muted); }
+  .zf-covered { border: 1px solid var(--line-strong); border-radius: 4px; background: var(--card); padding: 14px 12px; text-align: center; }
+  .zf-covered b { display: block; font-size: 15px; font-weight: 600; }
+  .zf-covered i { display: block; margin-top: 4px; font-style: normal; font-size: 12px; line-height: 1.4; color: var(--muted); }
+  .zf-mid { display: flex; align-items: center; gap: 10px; padding: 10px 18px; background: var(--card); }
+  .zf-mid span:first-child { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--ink); font-weight: 600; }
+  .zf-mid span:last-child { flex: 1 1 auto; height: 1px; background: var(--line-strong); }
+  .zf-b { background: var(--card); border-top: 2px solid var(--red); padding: 14px 18px 18px; }
+  .zf-b .zl { margin: 0 0 10px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--red); }
+  .zf-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .zf-no { border: 1px solid var(--red); border-radius: 4px; background: var(--red-wash); padding: 12px 10px; text-align: center; }
+  /* Dark-mode law: never fill a box with the accent in dark — outline only. */
+  [data-theme="dark"] .zf-no { background: transparent; }
+  .zf-no b { display: block; font-size: 13px; font-weight: 600; line-height: 1.25; }
+  .zf-no i { display: block; margin-top: 4px; font-style: normal; font-size: 11px; line-height: 1.35; color: var(--muted); }
+  .fig-cap { margin: 12px 2px 0; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+
+  /* ---- compare-two diagram, house dialect ---- */
+  .cmp { display: flex; align-items: stretch; gap: 16px; margin-top: clamp(22px, 4vh, 40px); }
+  .cmp-card { flex: 1 1 0; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--card); box-shadow: var(--shadow-soft); padding: 20px 20px 16px; }
+  .cmp-card .lbl { margin: 0 0 10px; font-size: 12.5px; font-weight: 600; color: var(--ink); }
+  .cmp-card .n { margin: 0; font-size: 44px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+  .cmp-card .d { margin: 8px 0 0; font-size: 13px; line-height: 1.45; color: var(--muted); }
+  .cmp-mid { flex: 0 0 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+  .cmp-mid span { font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+  .cmp-note { margin-top: 14px; border: 1px solid var(--line); border-radius: 4px; background: var(--tint); padding: 13px 16px; }
+  .cmp-note p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
+
+  /* ---- stacked explainer, house dialect ---- */
+  .exp { border: 1px solid var(--line-strong); border-radius: 5px; background: var(--card); box-shadow: var(--shadow-soft); padding: clamp(18px, 2.2vw, 30px); margin-top: clamp(18px, 3vh, 30px); }
+  .exp .kicker { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .exp .kicker p { margin: 0; }
+  .exp .k-l { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--red); }
+  .exp .k-r { font-family: var(--mono); font-size: 10.5px; color: var(--faint); }
+  .exp h2 { margin: 10px 0 0; font-size: clamp(22px, 2.4vw, 32px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+  .exp .ans { margin: 10px 0 0; font-size: 14.5px; line-height: 1.55; color: var(--muted); max-width: 94ch; }
+  .exp .ans b { color: var(--ink); }
+  .cite { font-family: var(--mono); font-size: 12px; color: var(--red); text-decoration: none; border-bottom: 1px solid var(--red-wash); }
+  .exp-row { display: flex; gap: 14px; margin-top: 20px; align-items: stretch; }
+  .exp-side { flex: 1 1 0; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .qcard { border: 1px solid var(--line); border-radius: 4px; background: var(--card-strong); padding: 14px 15px; }
+  .qcard h4 { margin: 0; font-size: 14px; font-weight: 600; line-height: 1.3; }
+  .qcard p { margin: 7px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+  .exp-fig { flex: 1.35 1 0; min-width: 0; }
+  .exp-fig .fig-h { margin: 0 0 10px; font-size: 13px; font-weight: 600; text-align: center; }
+  .statute { margin-top: 16px; border: 1px solid var(--line); border-radius: 4px; background: var(--card-strong); overflow: hidden; }
+  .statute .s-t { padding: 12px 16px 11px; font-family: var(--serif); font-size: 14px; line-height: 1.6; }
+  .statute .s-f { margin: 0; padding: 8px 16px 9px; border-top: 1px solid var(--line); background: var(--tint); font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+  ins { color: var(--insert); text-decoration: underline; text-underline-offset: 2px; }
+  .exp .scope { margin: 14px 0 0; font-size: 11.5px; line-height: 1.5; color: var(--faint); }
+
+  @media (max-width: 820px) {
+    .bar { gap: 8px; }
+    .bar p { display: none; }
+    .pills { overflow-x: auto; scrollbar-width: none; max-width: calc(100vw - 78px); }
+    .pills::-webkit-scrollbar { display: none; }
+    .pill { padding: 5px 10px; }
+    .stage { padding-top: 92px; }
+    .body-row, .exp-row, .cmp { flex-direction: column; }
+    .zf-grid { grid-template-columns: 1fr; }
+    .cmp-mid { flex-direction: row; }
+  }
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--
+MOCKUPS: the house style carried across the system —
+1) a slide-brief slide whose figure is the dialed ZONES component,
+2) a slide-brief slide on the COMPARE-TWO component,
+3) the full stacked explainer.
+Same tokens, same accent law, same three-layer contract everywhere.
+-->
+
+<div class="bar">
+  <p>House style mockups &#183; one token set across slide brief and stacked explainer</p>
+  <div class="pills" id="pills"></div>
+  <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark mode"><svg class="i-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"></path></svg><svg class="i-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+  <button class="theme-btn" id="fsBtn" type="button" aria-label="Fullscreen"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></button>
+</div>
+
+<div class="stage">
+
+  <!-- ============ 1 · SLIDE WITH ZONES DIAGRAM ============ -->
+  <section data-v="Z" aria-label="Slide with zones diagram">
+    <h1 class="title">The shield covers one kind of suit.</h1>
+    <p class="subtitle">Delaware corporations &#183; officer exculpation under &#167;102(b)(7), amended Aug.&#160;1,&#160;2022.</p>
+
+    <div class="body-row">
+      <div class="figure">
+        <div class="zones-fig">
+          <div class="zf-a">
+            <p class="zl">COVERED BY THE SHIELD</p>
+            <div class="zf-covered">
+              <b>Careless-decision suits</b>
+              <i>A shareholder sues the officer directly for money over a careless decision.</i>
+            </div>
+          </div>
+          <div class="zf-mid"><span>THE CHARTER LINE</span><span></span></div>
+          <div class="zf-b">
+            <p class="zl">NEVER COVERED</p>
+            <div class="zf-grid">
+              <div class="zf-no"><b>Disloyalty or personal benefit</b><i>Self-dealing, improper benefit.</i></div>
+              <div class="zf-no"><b>Bad faith</b><i>Bad faith, or knowingly breaking the law.</i></div>
+              <div class="zf-no"><b>The company itself sues</b><i>Including a shareholder suing on its behalf.</i></div>
+            </div>
+          </div>
+        </div>
+        <p class="fig-cap">The 2022 amendment added officers to &#167;102(b)(7). The charter must say so; it is not automatic.</p>
+      </div>
+
+      <div class="points">
+        <button class="sub" type="button">
+          <span class="sec-tag">&#167;102(b)(7)</span>
+          <span class="mid"><h3>What the charter can eliminate</h3><p>Direct stockholder claims for money over a duty-of-care breach.</p></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+        </button>
+        <button class="sub" type="button">
+          <span class="sec-tag">(i)&#8211;(v)</span>
+          <span class="mid"><h3>What it can never reach</h3><p>Loyalty, bad faith, improper benefit; derivative claims stay live.</p></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+        </button>
+        <button class="sub" type="button">
+          <span class="sec-tag">&#167;242(b)(1)</span>
+          <span class="mid"><h3>How a corporation adopts it</h3><p>Board resolution, stockholder vote, certificate of amendment.</p></span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="foot">
+      <p>Tap a point for the authority, quoted in place.</p>
+      <p>Authorities accessed Aug 17, 2026.</p>
+    </div>
+  </section>
+
+  <!-- ============ 2 · SLIDE WITH COMPARE-TWO DIAGRAM ============ -->
+  <section data-v="C" aria-label="Slide with compare-two diagram">
+    <h1 class="title">They accepted 12 of our 14 changes.</h1>
+    <p class="subtitle">Meridian / Halloway Purchase Agreement &#183; Draft 4, received Aug 18.</p>
+
+    <div class="cmp">
+      <div class="cmp-card">
+        <p class="lbl">Our redline &#183; sent Aug 12</p>
+        <p class="n">14</p>
+        <p class="d">changes proposed across nine sections</p>
+      </div>
+      <div class="cmp-mid">
+        <span>Aug 18</span>
+        <svg width="34" height="16" viewBox="0 0 34 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--faint);"><path d="M1 8h29"></path><path d="M26 3l5 5-5 5"></path></svg>
+      </div>
+      <div class="cmp-card">
+        <p class="lbl">Came back accepted</p>
+        <p class="n">12</p>
+        <p class="d">accepted as written &#183; two narrowed</p>
+      </div>
+    </div>
+
+    <div class="cmp-note">
+      <p>The two they narrowed do not change the deal economics; both change who carries a risk after closing. Both are flagged so nobody is surprised at signing.</p>
+    </div>
+
+    <div class="foot">
+      <p>Tap a narrowed change for the redline.</p>
+      <p>Nothing needs a decision before Thursday.</p>
+    </div>
+  </section>
+
+  <!-- ============ 3 · STACKED EXPLAINER ============ -->
+  <section data-v="E" aria-label="Stacked explainer">
+    <div class="exp">
+      <div class="kicker">
+        <p class="k-l">QUESTION &#183; DELAWARE CORPORATIONS</p>
+        <p class="k-r">Authorities accessed Aug 17, 2026</p>
+      </div>
+      <h2>Can a Delaware corporation shield its officers from personal liability?</h2>
+      <p class="ans"><b>Yes&#8212;since Aug. 1, 2022.</b> The 2022 amendment to <a class="cite" href="#">DGCL &#167;102(b)(7)</a> lets the certificate of incorporation eliminate or limit covered officers&#8217; personal liability for monetary damages for duty-of-care breaches. The charter must contain the provision; the statute did not give officers automatic protection.</p>
+
+      <div class="exp-row">
+        <div class="exp-side">
+          <div class="qcard">
+            <h4>Which claims and officers can it cover?</h4>
+            <p>Direct stockholder claims seeking money from an officer for a duty-of-care breach. It limits that remedy; it does not erase the duty. <a class="cite" href="#">&#167;102(b)(7)</a></p>
+          </div>
+          <div class="qcard">
+            <h4>How does the corporation adopt it?</h4>
+            <p>The board adopts a resolution, stockholders vote, and the corporation files a certificate of amendment. Effective when filed. <a class="cite" href="#">&#167;242(b)(1)</a></p>
+          </div>
+        </div>
+
+        <div class="exp-fig">
+          <p class="fig-h">What the shield covers, and what it never covers</p>
+          <div class="zones-fig">
+            <div class="zf-a">
+              <p class="zl">COVERED BY THE SHIELD</p>
+              <div class="zf-covered"><b>Careless-decision suits</b><i>A shareholder sues the officer directly for money over a careless decision.</i></div>
+            </div>
+            <div class="zf-mid"><span>THE CHARTER LINE</span><span></span></div>
+            <div class="zf-b">
+              <p class="zl">NEVER COVERED</p>
+              <div class="zf-grid">
+                <div class="zf-no"><b>Disloyalty or personal benefit</b></div>
+                <div class="zf-no"><b>Bad faith</b></div>
+                <div class="zf-no"><b>The company itself sues</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-side">
+          <div class="qcard">
+            <h4>What can it never cover?</h4>
+            <p>Loyalty breaches, bad faith, improper personal benefit; derivative claims stay live against officers. <a class="cite" href="#">&#167;102(b)(7)(i)&#8211;(v)</a></p>
+          </div>
+          <div class="qcard">
+            <h4>Why would a board do it?</h4>
+            <p>It puts officers closer to directors on duty-of-care exposure and changes settlement leverage in deal litigation.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="statute">
+        <div class="s-t"><span style="font-family: var(--mono); font-size: 11px; color: var(--muted);">&#167;102(b)&#160;&#160;</span>(7) A provision eliminating or limiting the personal liability of a <ins>director or officer</ins> to the corporation or its stockholders for monetary damages for breach of fiduciary duty&#8230;</div>
+        <p class="s-f">Official source &#183; delcode.delaware.gov &#183; captured Aug 19, 2026 &#183; highlight added</p>
+      </div>
+
+      <p class="scope">This explainer addresses a Delaware stock corporation adding officer exculpation to its certificate of incorporation. It is not legal advice. The serif above is the one place serif appears: the statute speaking.</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  var VIEWS = ['Z', 'C', 'E'];
+  var NAMES = { Z: 'Slide &#183; Zones', C: 'Slide &#183; Compare', E: 'Stacked explainer' };
+  var pillsWrap = document.getElementById('pills');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-v]'));
+  var themeBtn = document.getElementById('themeBtn');
+
+  function setView(v) {
+    if (VIEWS.indexOf(v) < 0) return;
+    sections.forEach(function (s) { s.classList.toggle('on', s.getAttribute('data-v') === v); });
+    Array.prototype.forEach.call(pillsWrap.children, function (b) {
+      b.setAttribute('aria-current', b.dataset.v === v ? 'true' : 'false');
+    });
+    try { localStorage.setItem('sbm-view', v); } catch (e) {}
+  }
+  VIEWS.forEach(function (v) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'pill'; b.dataset.v = v; b.innerHTML = NAMES[v];
+    b.addEventListener('click', function () { setView(v); });
+    pillsWrap.appendChild(b);
+  });
+
+  function setTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    themeBtn.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    try { localStorage.setItem('sbm-theme', t); } catch (e) {}
+  }
+  themeBtn.addEventListener('click', function () {
+    var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    setTheme(cur === 'dark' ? 'light' : 'dark');
+  });
+
+  var fsBtn = document.getElementById('fsBtn');
+  if (fsBtn) {
+    if (!(document.fullscreenEnabled || document.webkitFullscreenEnabled)) {
+      fsBtn.style.display = 'none';
+    } else {
+      fsBtn.addEventListener('click', function () {
+        var el = document.documentElement;
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+          (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+        } else {
+          (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+        }
+      });
+    }
+  }
+
+  var v = null, t = null;
+  try {
+    var q = new URLSearchParams(location.search);
+    v = q.get('view'); t = q.get('theme');
+  } catch (e) {}
+  if (!v) { try { v = localStorage.getItem('sbm-view'); } catch (e) {} }
+  if (!t) { try { t = localStorage.getItem('sbm-theme'); } catch (e) {} }
+  setView(VIEWS.indexOf(v) >= 0 ? v : 'Z');
+  setTheme(t === 'dark' ? 'dark' : 'light');
+})();
+</script>
