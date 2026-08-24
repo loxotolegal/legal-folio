@@ -6,60 +6,51 @@
 <meta name="generator" content="/visualize — slide brief">
 <title>Improving the format of client deliverables — slide brief</title>
 <style>
-:root {
+/* Loxoto house tokens: red marks only an open item or a decision point. */
+:root, [data-theme="light"] {
   color-scheme: light;
-  --paper: #f8f9fb;
-  --paper-deep: #f2f4f7;
-  --card: #ffffff;
-  --card-strong: #ffffff;
-  --ink: #191c22;
-  --muted: #5c626d;
-  --faint: #656c77;
-  --line: rgba(25, 28, 34, 0.13);
-  --line-strong: rgba(25, 28, 34, 0.3);
-  --accent: #3158d4;
-  --accent-strong: #213d9f;
-  --accent-wash: rgba(49, 88, 212, 0.065);
-  --focus: #3158d4;
-  --shadow: 0 24px 64px rgba(25, 28, 34, 0.14);
-  --shadow-soft: 0 10px 28px rgba(25, 28, 34, 0.07);
-  --serif: Charter, "Iowan Old Style", Georgia, "Times New Roman", serif;
-  --sans: Aptos, "Avenir Next", "Segoe UI", sans-serif;
-  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  --bg: #fbfbfb; --card: #ffffff; --card-strong: #ffffff;
+  --ink: #111111; --muted: #565656; --faint: #7d7d7d;
+  --line: rgba(17, 17, 17, 0.13); --line-strong: rgba(17, 17, 17, 0.3);
+  --red: #c92014; --red-strong: #a01a10; --red-wash: rgba(201, 32, 20, 0.055);
+  --insert: #2456d6; --strike: #c92014;
+  --tint: #f3f3f3; --scrim: rgba(17, 17, 17, 0.52);
+  --shadow: 0 22px 60px rgba(17, 17, 17, 0.18);
+  --shadow-soft: 0 1px 3px rgba(17, 17, 17, 0.08), 0 6px 18px rgba(17, 17, 17, 0.05);
+  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --serif: Charter, "Iowan Old Style", Georgia, serif;
+  --mono: "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #131313; --card: #1d1d1d; --card-strong: #232323;
+  --ink: #f2f2f0; --muted: #b4b4b0; --faint: #8d8d89;
+  --line: rgba(242, 242, 240, 0.14); --line-strong: rgba(242, 242, 240, 0.32);
+  --red: #ff5a4e; --red-strong: #ff7d73; --red-wash: rgba(255, 90, 78, 0.12);
+  --insert: #6fa0ff; --strike: #ff5a4e;
+  --tint: #202020; --scrim: rgba(0, 0, 0, 0.68);
+  --shadow: 0 22px 60px rgba(0, 0, 0, 0.6);
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+:root {
+  --paper: var(--bg);
+  --paper-deep: var(--tint);
+  --accent: var(--red);
+  --accent-strong: var(--red-strong);
+  --accent-wash: var(--red-wash);
+  --focus: var(--red);
   --ease: cubic-bezier(.2,.75,.25,1);
-  /* the roster reads these three and inherits the page's paper for free */
-  --os-bg: var(--paper);
+  --os-bg: var(--bg);
   --os-fg: var(--ink);
-  --os-accent: var(--accent);
-  /* ── the editor's colour palette. Every swatch is a TOKEN, so a colour
-        the editor picks is a reference, never a hex: it re-resolves when the theme
-        flips and his choice reads correctly in light and in dark. ─────── */
-  --tint-ink: color-mix(in srgb, var(--ink) 62%, var(--paper));
-  --tint-accent: color-mix(in srgb, var(--accent) 55%, var(--paper));
-  --tint-muted: color-mix(in srgb, var(--muted) 55%, var(--paper));
-  /* copy type — one dial per role, scaled per slide by the fitter */
+  --os-accent: var(--red);
+  --tint-ink: color-mix(in srgb, var(--ink) 62%, var(--bg));
+  --tint-accent: color-mix(in srgb, var(--red) 55%, var(--bg));
+  --tint-muted: color-mix(in srgb, var(--muted) 55%, var(--bg));
   --copy-k: 1;
   --title-px: 26px;
   --beat-px: 15px;
-}
-
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --paper: #15171c;
-  --paper-deep: #111318;
-  --card: #1d2027;
-  --card-strong: #222630;
-  --ink: #f4f5f8;
-  --muted: #bac0ca;
-  --faint: #939ba7;
-  --line: rgba(244, 245, 248, 0.13);
-  --line-strong: rgba(244, 245, 248, 0.28);
-  --accent: #849af2;
-  --accent-strong: #aebdf8;
-  --accent-wash: rgba(132, 154, 242, 0.12);
-  --focus: #849af2;
-  --shadow: 0 18px 55px rgba(0, 0, 0, 0.34);
-  --shadow-soft: 0 7px 26px rgba(0, 0, 0, 0.24);
 }
 
 * { box-sizing: border-box; }
@@ -100,7 +91,7 @@ button:focus-visible, [contenteditable]:focus-visible, [data-host] *:focus-visib
 .sb-title {
   margin: 0;
   width: var(--unit-width, auto);
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-weight: 600;
   font-size: calc(var(--title-px) * var(--copy-k));
   line-height: 1.14;
@@ -447,8 +438,8 @@ html[data-mode="edit"] [contenteditable] { user-select: text; -webkit-user-selec
 html[data-mode="edit"] [data-editable][contenteditable] { cursor: text; background: var(--accent-wash); border-radius: 3px; }
 
 /* ── delete handle + the deleted state ───────────────────────────────── */
-.edit-handle.del { top: -9px; right: -9px; color: #a6402f; border-color: #a6402f; }
-:root[data-theme="dark"] .edit-handle.del { color: #f0a08e; border-color: #c4735f; }
+.edit-handle.del { top: -9px; right: -9px; color: var(--red); border-color: var(--red); }
+:root[data-theme="dark"] .edit-handle.del { color: var(--red); border-color: var(--red); }
 .sb-title-unit .edit-handle.del { top: -22px; right: -2px; }
 .sb-figure .edit-handle.del { right: 16px; }
 .editable-unit[data-deleted] { display: none !important; }
@@ -490,7 +481,7 @@ html[data-mode="edit"] #sbed { display: block; }
 .smed-h[data-dir="n"], .smed-h[data-dir="s"] { cursor: ns-resize; }
 .smed-h[data-dir="e"], .smed-h[data-dir="w"] { cursor: ew-resize; }
 .smed-h[data-dir="ne"], .smed-h[data-dir="sw"] { cursor: nesw-resize; }
-.smed-g { position: absolute; background: #f59e0b; pointer-events: none; opacity: .9; }
+.smed-g { position: absolute; background: var(--faint); pointer-events: none; opacity: .9; }
 .smed-g.v { width: 1px; }
 .smed-g.h { height: 1px; }
 .smed-m {
@@ -590,7 +581,7 @@ html[data-mode="edit"] .sb-dock { display: flex; }
 .sb-sw[data-token="none"],
 .sb-sw[data-token="transparent"] {
   background:
-    linear-gradient(45deg, transparent 45%, #a6402f 45%, #a6402f 55%, transparent 55%),
+    linear-gradient(45deg, transparent 45%, var(--red) 45%, var(--red) 55%, transparent 55%),
     var(--card);
 }
 .sb-sw[data-token="transparent"] {
@@ -650,7 +641,7 @@ html[data-mode="edit"] .sb-panel { display: flex; }
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font: 400 10px/1.3 var(--serif);
+  font: 400 10px/1.3 var(--sans);
   color: var(--muted);
 }
 .sb-stepper { display: inline-flex; align-items: stretch; flex: 0 0 auto; border: 1px solid var(--line-strong); border-radius: 7px; overflow: hidden; }
@@ -691,8 +682,8 @@ html[data-mode="edit"] .sb-panel { display: flex; }
 .sb-chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-wash); color: var(--accent-strong); }
 .sb-chip:disabled { opacity: .42; cursor: default; }
 .sb-chip:disabled:hover { border-color: var(--line-strong); color: var(--muted); }
-.sb-chip.danger { color: #a6402f; border-color: color-mix(in srgb, #a6402f 45%, transparent); }
-:root[data-theme="dark"] .sb-chip.danger { color: #f0a08e; }
+.sb-chip.danger { color: var(--red); border-color: color-mix(in srgb, var(--red) 45%, transparent); }
+:root[data-theme="dark"] .sb-chip.danger { color: var(--red); }
 .sb-chip-row { display: flex; flex-wrap: wrap; gap: 5px; }
 
 /* ── the floating toolbar for one diagram component ──────────────────── */
@@ -748,7 +739,7 @@ html[data-mode="edit"] [data-host] [data-comp] { cursor: move; }
   border-radius: 7px;
   background: var(--card);
   color: var(--ink);
-  font: 400 12.5px/1.4 var(--serif);
+  font: 400 12.5px/1.4 var(--sans);
   letter-spacing: 0;
   text-transform: none;
 }
@@ -772,6 +763,77 @@ html[data-mode="edit"] [data-host] [data-comp] { cursor: move; }
 
 @media (prefers-reduced-motion: reduce) {
   html[data-runtime="on"] .sb-slide { transition: none; }
+}
+
+/* ── Loxoto finish: grotesque voice, hairline structure, compact geometry. */
+.sb-title {
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: -.022em;
+}
+.sb-row-label,
+.sb-textedit input { font-family: var(--sans); }
+html[data-runtime="on"] #stage {
+  background: var(--bg);
+  border-color: var(--line-strong);
+}
+.sb-chrome,
+.sb-panel,
+.sb-dock,
+.sb-comp-tools,
+.sb-textedit-card,
+.sb-pal-pop,
+.sb-stepper,
+.sb-alt,
+.edit-handle { border-radius: 4px; }
+.sb-btn,
+.sb-chip,
+.sb-dock-btn,
+.sb-textedit input { border-radius: 2px; }
+.sb-sw { border-radius: 4px; }
+.sb-sw[data-paint="fill"] { border-radius: 2px; }
+.sb-btn[aria-pressed="true"],
+.sb-chip[aria-pressed="true"],
+.sb-dock-btn[aria-pressed="true"] {
+  border-color: var(--line-strong);
+  background: var(--tint);
+  color: var(--ink);
+}
+.sb-btn.primary { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+.sb-rail-dot[aria-current="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+.sb-rail-beat.on { background: var(--ink); }
+.sb-stepper button:hover { background: var(--tint); color: var(--ink); }
+
+/* Dark mode keeps decision red on strokes and underlines, never box fills. */
+[data-theme="dark"] .smed-m,
+[data-theme="dark"] [data-editable][contenteditable] {
+  background: transparent;
+}
+[data-theme="dark"] [data-editable][contenteditable] { box-shadow: inset 0 -2px 0 var(--red); }
+
+/* Portrait is the phone contract: one-row chrome and top-anchored content. */
+@media (max-width: 600px), (max-height: 900px) and (max-width: 460px) {
+  html[data-runtime="on"][data-aspect="portrait"] .sb-chrome {
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    max-width: calc(100vw - 20px);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  html[data-runtime="on"][data-aspect="portrait"] .sb-chrome::-webkit-scrollbar { display: none; }
+  html[data-runtime="on"][data-aspect="portrait"] .sb-slide,
+  html[data-runtime="on"][data-aspect="portrait"] .sb-slide[data-layout="pane"],
+  html[data-runtime="on"][data-aspect="portrait"] .sb-slide[data-layout="wide"] {
+    justify-content: flex-start;
+    padding: 62px 18px 38px;
+  }
+  html[data-runtime="on"][data-aspect="portrait"] .sb-slide[data-layout] {
+    --title-px: 25px;
+    --beat-px: 14px;
+  }
 }
 </style>
 <!-- Every free position, size and rich-text run the editor commits is re-emitted
@@ -1205,32 +1267,32 @@ html[data-mode="edit"] [data-host] [data-comp] { cursor: move; }
 
   var TOKENS =
     ':root{' +
-    '--dg-ink:var(--os-fg,#141413);' +
-    '--dg-paper:var(--os-bg,#ffffff);' +
-    '--dg-muted:#6b6759;' +
-    '--dg-accent:var(--os-accent,#1b365d);' +
-    '--dg-tint:#eef2f8;' +
-    '--dg-tint-2:#f4efe6;' +
-    '--dg-c-human:#3f7d4f;' +
-    '--dg-c-local:#6b4a97;' +
-    '--dg-c-agent:#8a6512;' +
-    '--dg-font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;' +
-    '--dg-font-serif:Charter,"Iowan Old Style",Georgia,"Times New Roman",serif;' +
+    '--dg-ink:var(--os-fg,#111111);' +
+    '--dg-paper:var(--os-bg,#fbfbfb);' +
+    '--dg-muted:#565656;' +
+    '--dg-accent:var(--os-accent,#c92014);' +
+    '--dg-tint:#f3f3f3;' +
+    '--dg-tint-2:#ffffff;' +
+    '--dg-c-human:#565656;' +
+    '--dg-c-local:#7d7d7d;' +
+    '--dg-c-agent:#111111;' +
+    '--dg-font-mono:"SFMono-Regular",Menlo,Consolas,monospace;' +
+    '--dg-font-serif:"Helvetica Neue",Helvetica,Arial,sans-serif;' +
     '--dg-w:1.3;' +      /* the one stroke width. Rule 3: 1-1.5px. */
     '--dg-w-hair:0.9;' + /* zone containers and axes only */
     '}' +
     '@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){' +
-    '--dg-paper:var(--os-bg,#16171b);--dg-ink:var(--os-fg,#ece9e2);--dg-muted:#9a958a;' +
-    '--dg-accent:var(--os-accent,#8fb0d8);--dg-tint:#232833;--dg-tint-2:#2b2821;' +
-    '--dg-c-human:#7fb98d;--dg-c-local:#b096d8;--dg-c-agent:#d6ab55;}}' +
+    '--dg-paper:var(--os-bg,#131313);--dg-ink:var(--os-fg,#f2f2f0);--dg-muted:#b4b4b0;' +
+    '--dg-accent:var(--os-accent,#ff5a4e);--dg-tint:#202020;--dg-tint-2:#1d1d1d;' +
+    '--dg-c-human:#b4b4b0;--dg-c-local:#8d8d89;--dg-c-agent:#f2f2f0;}}' +
     ':root[data-theme="dark"]{' +
-    '--dg-paper:var(--os-bg,#16171b);--dg-ink:var(--os-fg,#ece9e2);--dg-muted:#9a958a;' +
-    '--dg-accent:var(--os-accent,#8fb0d8);--dg-tint:#232833;--dg-tint-2:#2b2821;' +
-    '--dg-c-human:#7fb98d;--dg-c-local:#b096d8;--dg-c-agent:#d6ab55;}';
+    '--dg-paper:var(--os-bg,#131313);--dg-ink:var(--os-fg,#f2f2f0);--dg-muted:#b4b4b0;' +
+    '--dg-accent:var(--os-accent,#ff5a4e);--dg-tint:#202020;--dg-tint-2:#1d1d1d;' +
+    '--dg-c-human:#b4b4b0;--dg-c-local:#8d8d89;--dg-c-agent:#f2f2f0;}';
 
   /* ═══ 3. THE TYPE SCALE ═══════════════════════════════════════════════
-     Read off the gold standards. Mono carries structure (node names, edge
-     names, zone names); the serif carries the human sentence under it.
+     SFMono carries locators (node names, edge names, zone names); the
+     grotesque carries the plain-language sentence under it.
      charW is the FIRST GUESS only — the advance per character including
      letter-spacing (JetBrains Mono is 0.6em). refit() below then measures
      what the browser actually rendered and re-wraps if the real font is
@@ -1238,7 +1300,7 @@ html[data-mode="edit"] [data-host] [data-comp] { cursor: move; }
 
   var TYPE = {
     node:  { px: 13,   charW: 8.35, cls: 'dg-t-node'  },  /* MONO CAPS, box titles */
-    sub:   { px: 11.5, charW: 6.95, cls: 'dg-t-sub'   },  /* serif, the plain-words line */
+    sub:   { px: 11.5, charW: 6.95, cls: 'dg-t-sub'   },  /* grotesque, the plain-words line */
     edge:  { px: 9.5,  charW: 6.30, cls: 'dg-t-edge'  },  /* MONO CAPS, every arrow */
     zone:  { px: 10,   charW: 7.25, cls: 'dg-t-zone'  },  /* MONO CAPS, containers */
     num:   { px: 11,   charW: 7.10, cls: 'dg-t-num'   },  /* MONO, step numbers */
@@ -1264,7 +1326,7 @@ html[data-mode="edit"] [data-host] [data-comp] { cursor: move; }
     '.dg-head-a{fill:var(--dg-accent);stroke:none}' +
     '.dg-dot{fill:var(--dg-accent);stroke:none}' +
     /* type — the family goes on the <svg> so text INHERITS it; putting it on
-       `.dg-svg text` would out-specify .dg-t-sub and silently kill the serif */
+       `.dg-svg text` would out-specify the plain-language role */
     '.dg-svg{font-family:var(--dg-font-mono)}' +
     '.dg-t-node{font-size:13px;font-weight:500;letter-spacing:.04em;fill:var(--dg-ink)}' +
     '.dg-t-sub{font-family:var(--dg-font-serif);' +
@@ -1288,11 +1350,11 @@ html[data-mode="edit"] [data-host] [data-comp] { cursor: move; }
        paint order, so every pixel inside the rounded box is a reliable hit. */
     '.dg-nb-hit{fill:transparent;stroke:none;pointer-events:all}' +
     '.dg-ba-gear{will-change:transform}.dg-ba-gear-face{' +
-    'fill:color-mix(in srgb,var(--dg-accent) 28%,var(--dg-paper));stroke:none}' +
+    'fill:var(--dg-tint);stroke:none}' +
     '.dg-compare-col-face,.dg-compare-row-face{stroke:none}.dg-compare-col-neutral{fill:var(--dg-tint-2)}' +
-    '.dg-compare-col-accent{fill:color-mix(in srgb,var(--dg-accent) 15%,var(--dg-paper))}' +
+    '.dg-compare-col-accent{fill:var(--dg-paper)}' +
     '.dg-compare-head-neutral .dg-nb-face{fill:var(--dg-tint-2)}' +
-    '.dg-compare-head-accent .dg-nb-face{fill:color-mix(in srgb,var(--dg-accent) 24%,var(--dg-paper))}' +
+    '.dg-compare-head-accent .dg-nb-face{fill:var(--dg-paper)}' +
     '.dg-compare-head-accent .dg-nb-box{stroke:var(--dg-accent)}' +
     '.dg-compare-head-accent .dg-nb-title{fill:var(--dg-accent)}' +
     '.dg-compare-criterion{font-family:var(--dg-font-serif);font-size:12px;font-weight:700;' +
@@ -1306,7 +1368,7 @@ html[data-mode="edit"] [data-host] [data-comp] { cursor: move; }
     'display:grid;place-items:center;padding:22px;background:color-mix(in srgb,var(--dg-paper) 72%,transparent);' +
     'backdrop-filter:blur(3px)}.dg-popover-card{position:relative;width:min(460px,82%);' +
     'padding:24px 26px 22px;background:var(--dg-paper);color:var(--dg-ink);border:1px solid var(--dg-accent);' +
-    'border-radius:10px;box-shadow:0 16px 40px color-mix(in srgb,var(--dg-ink) 18%,transparent);' +
+    'border-radius:4px;box-shadow:0 16px 40px color-mix(in srgb,var(--dg-ink) 18%,transparent);' +
     'font-family:var(--dg-font-mono)}' +
     '.dg-popover-kicker{margin:0 32px 8px 0;font:500 10px/1.2 var(--dg-font-mono);' +
     'letter-spacing:.11em;color:var(--dg-accent)}.dg-popover-title{margin:0 32px 9px 0;' +
