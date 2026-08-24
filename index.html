@@ -1,0 +1,601 @@
+<title>Legal Folio</title>
+
+<style>
+  /* ============ HOUSE TOKENS — red grotesque ============
+     One accent law everywhere: red marks what is OPEN or needs a decision. Nothing else. */
+  :root, [data-theme="light"] {
+    color-scheme: light;
+    --bg: #fbfbfb; --card: #ffffff; --card-strong: #ffffff;
+    --ink: #111111; --muted: #565656; --faint: #7d7d7d;
+    --line: rgba(17, 17, 17, 0.13); --line-strong: rgba(17, 17, 17, 0.3);
+    --red: #c92014; --red-strong: #a01a10; --red-wash: rgba(201, 32, 20, 0.055);
+    --insert: #2456d6; --strike: #c92014;
+    --tint: #f3f3f3; --scrim: rgba(17, 17, 17, 0.52);
+    --shadow: 0 22px 60px rgba(17, 17, 17, 0.18);
+    --shadow-soft: 0 1px 3px rgba(17, 17, 17, 0.08), 0 6px 18px rgba(17, 17, 17, 0.05);
+    --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --serif: Charter, "Iowan Old Style", Georgia, serif;
+    --mono: "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  [data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #131313; --card: #1d1d1d; --card-strong: #232323;
+    --ink: #f2f2f0; --muted: #b4b4b0; --faint: #8d8d89;
+    --line: rgba(242, 242, 240, 0.14); --line-strong: rgba(242, 242, 240, 0.32);
+    --red: #ff5a4e; --red-strong: #ff7d73; --red-wash: rgba(255, 90, 78, 0.12);
+    --insert: #6fa0ff; --strike: #ff5a4e;
+    --tint: #202020; --scrim: rgba(0, 0, 0, 0.68);
+    --shadow: 0 22px 60px rgba(0, 0, 0, 0.6);
+    --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--sans); -webkit-font-smoothing: antialiased;
+  }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+  :focus:not(:focus-visible) { outline: none; }
+
+  /* ---- fixed chrome: matter line + variant pills + theme toggle ---- */
+  .bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px clamp(16px, 3vw, 40px);
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .matter { margin: 0; font-size: 12px; color: var(--muted); flex: 1 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pills { display: flex; gap: 2px; border: 1px solid var(--line-strong); padding: 2px; background: var(--card); }
+  .pill {
+    border: none; background: transparent; padding: 5px 13px;
+    font-size: 12.5px; font-weight: 600; color: var(--muted); letter-spacing: .02em;
+  }
+  .pill[aria-current="true"] { background: var(--ink); color: var(--bg); }
+  .pill:hover:not([aria-current="true"]) { color: var(--ink); }
+  .theme-btn {
+    border: 1px solid var(--line-strong); background: var(--card);
+    width: 34px; height: 30px; padding: 0; display: flex; align-items: center; justify-content: center;
+    color: var(--muted); flex: 0 0 auto;
+  }
+  .theme-btn:hover { color: var(--ink); }
+  [data-theme="light"] .theme-btn .i-sun { display: none; }
+  [data-theme="dark"] .theme-btn .i-moon { display: none; }
+
+  /* ---- slide stage ---- */
+  .stage {
+    display: flex; flex-direction: column;
+    padding: 76px clamp(18px, 4vw, 56px) 40px;
+    max-width: 1240px; margin: 0 auto;
+  }
+  section[data-v] { display: none; flex-direction: column; }
+  section[data-v].on { display: flex; }
+
+  .title { margin: 0; font-size: clamp(34px, 4.6vw, 60px); font-weight: 700; letter-spacing: -0.022em; line-height: 1.02; }
+  .subtitle { margin: 12px 0 0; font-size: clamp(15px, 1.5vw, 18px); line-height: 1.5; color: var(--muted); max-width: 62ch; }
+  .hint { font-size: 12.5px; color: var(--faint); }
+  .agreed-line { margin: 0; font-size: 13px; line-height: 1.6; color: var(--muted); }
+  .agreed-line .secs { color: var(--ink); }
+  .closer { margin: 0; font-size: 13px; color: var(--muted); }
+  .foot { display: flex; justify-content: space-between; gap: 18px; align-items: baseline; border-top: 1px solid var(--line); padding-top: 14px; margin-top: clamp(28px, 5vh, 48px); flex-wrap: wrap; }
+
+  .sec-tag { font-family: var(--mono); font-size: 12.5px; color: var(--red); }
+  .chev { color: var(--faint); flex: 0 0 auto; transition: transform .15s ease, color .15s ease; }
+
+  /* ============ A · ISSUE CARDS ============ */
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: clamp(24px, 4.5vh, 44px); }
+  .icard {
+    display: flex; flex-direction: column; gap: 10px; text-align: left;
+    background: var(--card); border: 1px solid var(--line-strong); border-radius: 4px;
+    box-shadow: var(--shadow-soft); padding: 20px 20px 16px; min-height: 168px;
+    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .icard:hover { transform: translateY(-2px); border-color: var(--red); box-shadow: var(--shadow); }
+  .icard:hover .chev { transform: translateX(3px); color: var(--red); }
+  .icard .top { display: flex; justify-content: space-between; align-items: center; }
+  .icard h3 { margin: 0; font-size: 20px; font-weight: 600; line-height: 1.22; letter-spacing: -0.012em; }
+  .icard p { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+  .icard .act { margin-top: auto; padding-top: 10px; font-size: 13px; font-weight: 600; color: var(--red); }
+
+  /* ============ B · ZONES ============ */
+  .zones { margin-top: clamp(24px, 4.5vh, 44px); border: 1px solid var(--line-strong); border-radius: 4px; overflow: hidden; box-shadow: var(--shadow-soft); }
+  .zone-a { background: var(--tint); padding: 18px 22px 16px; }
+  .zone-a .zl { margin: 0 0 7px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--muted); }
+  .zone-a .zc { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink); }
+  .zone-a .zc span { white-space: nowrap; }
+  .zone-b { background: var(--card); border-top: 2px solid var(--red); padding: 18px 22px 20px; }
+  .zone-b .zl { margin: 0 0 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--red); }
+  .zone-b .zgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .zcard {
+    display: flex; flex-direction: column; gap: 8px; text-align: left;
+    background: var(--card-strong); border: 1px solid var(--line-strong); border-radius: 4px;
+    box-shadow: var(--shadow-soft); padding: 16px 16px 13px;
+    transition: transform .15s ease, border-color .15s ease;
+  }
+  .zcard:hover { transform: translateY(-2px); border-color: var(--red); }
+  .zcard:hover .chev { transform: translateX(3px); color: var(--red); }
+  .zcard .top { display: flex; justify-content: space-between; align-items: center; }
+  .zcard h3 { margin: 0; font-size: 17px; font-weight: 600; line-height: 1.25; }
+  .zcard p { margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+
+  /* ============ C · AGENDA ============ */
+  .split { display: flex; gap: clamp(28px, 5vw, 72px); margin-top: 0; align-items: center; }
+  .split .lead { flex: 0 0 38%; }
+  .split .lead p.big-n { margin: 0; font-size: clamp(120px, 15vw, 190px); font-weight: 700; line-height: 0.85; letter-spacing: -0.04em; color: var(--red); }
+  .split .lead h2 { margin: 10px 0 0; font-size: clamp(24px, 2.6vw, 34px); font-weight: 700; letter-spacing: -0.018em; line-height: 1.12; }
+  .split .lead p:not(.big-n) { margin: 12px 0 0; font-size: 15px; line-height: 1.5; color: var(--muted); }
+  .rows { flex: 1 1 auto; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .rrow {
+    display: flex; align-items: center; gap: 18px; text-align: left; width: 100%;
+    background: var(--card); border: 1px solid var(--line-strong); border-radius: 4px;
+    box-shadow: var(--shadow-soft); padding: 18px 20px;
+    transition: transform .15s ease, border-color .15s ease;
+  }
+  .rrow:hover { transform: translateX(3px); border-color: var(--red); }
+  .rrow:hover .chev { transform: translateX(3px); color: var(--red); }
+  .rrow .num { font-family: var(--mono); font-size: 13px; color: var(--faint); flex: 0 0 auto; }
+  .rrow .mid { flex: 1 1 auto; min-width: 0; }
+  .rrow h3 { margin: 0; font-size: 18px; font-weight: 600; line-height: 1.25; }
+  .rrow h3 .sec-tag { margin-left: 8px; font-weight: 400; }
+  .rrow p { margin: 4px 0 0; font-size: 13px; line-height: 1.45; color: var(--muted); }
+
+  /* ============ D · PROGRESS TRACK ============ */
+  .trackwrap { margin-top: clamp(26px, 5vh, 48px); }
+  .legend { display: flex; gap: 18px; justify-content: flex-end; margin-bottom: 10px; font-size: 12px; color: var(--muted); }
+  .legend .sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; vertical-align: -1px; margin-right: 6px; }
+  .legend .done { background: var(--ink); }
+  .legend .open { background: var(--card); border: 2px solid var(--red); }
+  .spine { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; align-items: end; }
+  .seg { height: 12px; background: var(--ink); border-radius: 2px; opacity: .82; }
+  .seg.open { height: 22px; background: var(--card); border: 2px solid var(--red); opacity: 1; }
+  .seg-labels { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; margin-top: 6px; }
+  .seg-labels span { font-family: var(--mono); font-size: 10.5px; color: var(--faint); text-align: center; }
+  .seg-labels span.open { color: var(--red); font-weight: 600; }
+  .drop { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 26px; }
+  .dcard { position: relative; }
+  .dcard::before { content: ""; position: absolute; top: -22px; left: 50%; width: 2px; height: 18px; background: var(--red); opacity: .55; }
+  .track-cap { margin: 18px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+
+  /* ============ POPUPS (layer 2) ============ */
+  .scrim {
+    position: fixed; inset: 0; z-index: 40; background: var(--scrim);
+    display: flex; align-items: center; justify-content: center;
+    padding: clamp(14px, 4vh, 44px) clamp(14px, 4vw, 44px);
+    animation: fade .2s ease both;
+  }
+  .scrim[hidden] { display: none; }
+  .pop {
+    width: min(720px, 100%); max-height: 100%; overflow: auto; position: relative;
+    background: var(--card); border: 1px solid var(--line-strong); border-radius: 5px;
+    box-shadow: var(--shadow); padding: 26px clamp(18px, 3vw, 30px) 24px;
+    animation: rise .4s cubic-bezier(.2, .75, .25, 1) both;
+  }
+  .pop-close {
+    position: absolute; top: 20px; right: 22px; width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid var(--line); background: transparent;
+    display: flex; align-items: center; justify-content: center; color: var(--muted);
+  }
+  .pop-close:hover { background: var(--red-wash); color: var(--ink); }
+  .pop .tag { margin: 0; font-family: var(--mono); font-size: 11.5px; color: var(--red); padding-right: 44px; }
+  .pop h2 { margin: 9px 0 0; font-size: 23px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.2; padding-right: 44px; }
+  .pop .desc { margin: 10px 0 0; font-size: 14.5px; line-height: 1.55; color: var(--muted); max-width: 64ch; }
+  .doc { margin-top: 18px; border: 1px solid var(--line); border-radius: 4px; background: var(--card-strong); overflow: hidden; }
+  .doc-text { padding: 15px 18px 13px; font-family: var(--serif); font-size: 15px; line-height: 1.65; }
+  .doc-cl { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .doc-foot { margin: 0; padding: 8px 18px 9px; border-top: 1px solid var(--line); background: var(--tint); font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+  del { color: var(--strike); text-decoration: line-through; }
+  ins { color: var(--insert); text-decoration: underline; text-underline-offset: 2px; }
+  mark { background: var(--red-wash); color: inherit; box-shadow: 0 0 0 3px var(--red-wash); }
+  /* Dark-mode law: no accent fills in dark — the highlight becomes an underline. */
+  [data-theme="dark"] mark { background: transparent; box-shadow: none; border-bottom: 2px solid var(--red); }
+  .tbl { margin-top: 16px; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .tr { display: grid; grid-template-columns: 1.2fr 1fr 1fr; }
+  .tr + .tr { border-top: 1px solid var(--line); }
+  .tr span { padding: 11px 14px; font-size: 13.5px; }
+  .tr span + span { border-left: 1px solid var(--line); }
+  .tr.head { background: var(--tint); }
+  .tr.head span { font-size: 11.5px; font-weight: 600; color: var(--muted); }
+  .tr .k { color: var(--muted); }
+  .out { margin: 16px 0 0; font-size: 13.5px; }
+  .out a { color: var(--red-strong); }
+  .out a:hover { color: var(--red); }
+  .out .arrow { color: var(--faint); }
+  .numline { margin-top: 20px; border: 1px solid var(--line); border-radius: 4px; background: var(--card-strong); padding: 22px 24px 16px; }
+
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .scrim, .pop { animation: none; } }
+
+  /* ---- phone ---- */
+  @media (max-width: 760px) {
+    .bar { gap: 8px; }
+    .matter { display: none; }
+    .pills { overflow-x: auto; scrollbar-width: none; max-width: calc(100vw - 78px); }
+    .pills::-webkit-scrollbar { display: none; }
+    .pill { padding: 5px 10px; }
+    .stage { padding-top: 92px; }
+    .cards, .zone-b .zgrid, .drop { grid-template-columns: 1fr; }
+    .icard { min-height: 0; }
+    .split { flex-direction: column; gap: 20px; }
+    .split .lead { flex: 1 1 auto; }
+    .big-n { font-size: 96px; }
+    .spine, .seg-labels { grid-template-columns: repeat(10, 1fr); }
+    .dcard::before { display: none; }
+    .foot { flex-direction: column; gap: 6px; }
+  }
+
+  /* Compact phone sizing — every view fits one screen by DESIGN. */
+  @media (max-width: 480px) {
+    .stage { padding: 76px 14px 14px; }
+    .title { font-size: 25px; }
+    .subtitle { font-size: 12.5px; margin-top: 7px; }
+    .cards { gap: 8px; margin-top: 13px; }
+    .icard { padding: 11px 12px 9px; gap: 5px; min-height: 0; }
+    .icard h3 { font-size: 16px; }
+    .icard p { font-size: 11.5px; }
+    .icard .act { padding-top: 5px; font-size: 11.5px; }
+    .foot { margin-top: 12px; padding-top: 9px; gap: 3px; }
+    .agreed-line, .closer { font-size: 11px; line-height: 1.4; }
+    .hint { font-size: 10.5px; }
+    .zones { margin-top: 13px; }
+    .zone-a { padding: 9px 12px 9px; }
+    .zone-a .zc { font-size: 12px; line-height: 1.45; }
+    .zone-a .zl, .zone-b .zl { font-size: 9.5px; margin-bottom: 6px; }
+    .zone-b { padding: 9px 12px 11px; }
+    .zone-b .zgrid { gap: 7px; }
+    .zcard { padding: 9px 11px 8px; gap: 3px; }
+    .zcard h3 { font-size: 14.5px; }
+    .zcard p { font-size: 11px; }
+    .split { gap: 8px; }
+    .split .lead p.big-n { font-size: 64px; }
+    .split .lead h2 { font-size: 19px; margin-top: 6px; }
+    .split .lead p:not(.big-n) { font-size: 12px; margin-top: 5px; }
+    .rows { gap: 7px; }
+    .rrow { padding: 10px 12px; gap: 10px; }
+    .rrow h3 { font-size: 14.5px; }
+    .rrow p { font-size: 11px; margin-top: 2px; }
+    .trackwrap { margin-top: 11px; }
+    .legend { font-size: 10px; margin-bottom: 5px; }
+    .seg-labels span { font-size: 8px; }
+    .drop { gap: 7px; margin-top: 9px; }
+    .track-cap { font-size: 11px; margin-top: 9px; }
+  }
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--
+FOUR ALTERNATIVES · one slide, one content set, four visual-communication strategies.
+Laws: short title; each fact appears once; clickable looks clickable; red = open only;
+no scatter-bold; no dead quadrants; three layers (slide, popup, source).
+-->
+
+<div class="bar">
+  <p class="matter">Meridian / Halloway Purchase Agreement &#183; Draft 4 &#183; received Aug 18</p>
+  <div class="pills" id="pills" role="group" aria-label="Design alternative"><button type="button" class="pill" data-v="A" aria-current="true">A &#183; Cards</button><button type="button" class="pill" data-v="B" aria-current="false">B &#183; Zones</button><button type="button" class="pill" data-v="C" aria-current="false">C &#183; Agenda</button><button type="button" class="pill" data-v="D" aria-current="false">D &#183; Track</button></div>
+  <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark mode"><svg class="i-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"></path></svg><svg class="i-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
+  <button class="theme-btn" id="fsBtn" type="button" aria-label="Fullscreen"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></button>
+</div>
+
+<div class="stage">
+
+  <!-- ============ A · ISSUE CARDS ============ -->
+  <section data-v="A" class="on" aria-label="A: issue cards">
+    <h1 class="title">Three issues remain open.</h1>
+    <p class="subtitle">Everything else in Draft 4 is agreed, and none of the three moves the price.</p>
+
+    <div class="cards">
+      <button class="icard" type="button" data-pop="p74">
+        <span class="top"><span class="sec-tag">&#167;7.4</span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+        <h3>Right of first refusal</h3>
+        <p>They want the ROFR to survive three years past termination.</p>
+        <span class="act">View the redline</span>
+      </button>
+      <button class="icard" type="button" data-pop="p91">
+        <span class="top"><span class="sec-tag">&#167;9.1</span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+        <h3>Termination for cause</h3>
+        <p>Their draft adds an undefined &#8220;material underperformance&#8221; trigger.</p>
+        <span class="act">View the clause</span>
+      </button>
+      <button class="icard" type="button" data-pop="p112">
+        <span class="top"><span class="sec-tag">&#167;11.2</span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+        <h3>Indemnity basket cap</h3>
+        <p>We are $1.5M apart, and the mechanics differ.</p>
+        <span class="act">View the positions</span>
+      </button>
+    </div>
+
+    <div class="foot">
+      <p class="agreed-line">Agreed in Draft 4 &#8212; <span class="secs">&#167;2 Price &#183; &#167;4 Closing conditions &#183; &#167;5 Reps &amp; warranties &#183; &#167;8 Escrow &#183; &#167;10 Non-compete</span></p>
+      <p class="closer">Nothing needs a decision before Thursday.</p>
+    </div>
+  </section>
+
+  <!-- ============ B · ZONES ============ -->
+  <section data-v="B" aria-label="B: zones">
+    <h1 class="title">Three issues remain open.</h1>
+    <p class="subtitle">The agreement in one picture: what is settled, and the three places that still need a call.</p>
+
+    <div class="zones">
+      <div class="zone-a">
+        <p class="zl">AGREED IN DRAFT 4</p>
+        <p class="zc"><span>&#167;2 Price</span> &#183; <span>&#167;4 Closing conditions</span> &#183; <span>&#167;5 Reps &amp; warranties</span> &#183; <span>&#167;8 Escrow</span> &#183; <span>&#167;10 Non-compete</span></p>
+      </div>
+      <div class="zone-b">
+        <p class="zl">STILL OPEN &#8212; NEEDS A CALL</p>
+        <div class="zgrid">
+          <button class="zcard" type="button" data-pop="p74">
+            <span class="top"><span class="sec-tag">&#167;7.4</span>
+              <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+            <h3>Right of first refusal</h3>
+            <p>Survives termination for three years in their draft.</p>
+          </button>
+          <button class="zcard" type="button" data-pop="p91">
+            <span class="top"><span class="sec-tag">&#167;9.1</span>
+              <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+            <h3>Termination for cause</h3>
+            <p>Adds an undefined underperformance trigger.</p>
+          </button>
+          <button class="zcard" type="button" data-pop="p112">
+            <span class="top"><span class="sec-tag">&#167;11.2</span>
+              <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+            <h3>Indemnity basket cap</h3>
+            <p>$1.5M apart with different mechanics.</p>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <p class="hint">Tap an open issue for the redline.</p>
+      <p class="closer">Nothing needs a decision before Thursday.</p>
+    </div>
+  </section>
+
+  <!-- ============ C · AGENDA ============ -->
+  <section data-v="C" aria-label="C: agenda">
+    <div class="split">
+      <div class="lead">
+        <p class="big-n">3</p>
+        <h2>issues remain open on the Purchase Agreement.</h2>
+        <p>Everything else in Draft 4 is agreed. None of the three moves the price.</p>
+      </div>
+      <div class="rows">
+        <button class="rrow" type="button" data-pop="p74">
+          <span class="num">01</span>
+          <span class="mid">
+            <h3>Right of first refusal <span class="sec-tag">&#167;7.4</span></h3>
+            <p>They want it to survive three years past termination.</p>
+          </span>
+          <svg class="chev" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+        </button>
+        <button class="rrow" type="button" data-pop="p91">
+          <span class="num">02</span>
+          <span class="mid">
+            <h3>Termination for cause <span class="sec-tag">&#167;9.1</span></h3>
+            <p>Their draft adds an undefined &#8220;material underperformance&#8221; trigger.</p>
+          </span>
+          <svg class="chev" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+        </button>
+        <button class="rrow" type="button" data-pop="p112">
+          <span class="num">03</span>
+          <span class="mid">
+            <h3>Indemnity basket cap <span class="sec-tag">&#167;11.2</span></h3>
+            <p>We are $1.5M apart, and the mechanics differ.</p>
+          </span>
+          <svg class="chev" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+        </button>
+        <p class="agreed-line" style="margin-top: 6px;">Agreed in Draft 4 &#8212; <span class="secs">&#167;2 &#183; &#167;4 &#183; &#167;5 &#183; &#167;8 &#183; &#167;10</span>. Nothing needs a decision before Thursday.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ D · PROGRESS TRACK ============ -->
+  <section data-v="D" aria-label="D: progress track">
+    <h1 class="title">Three issues remain open.</h1>
+    <p class="subtitle">The agreement, section by section: filled is agreed, red is open.</p>
+
+    <div class="trackwrap">
+      <div class="legend"><span><span class="sw done"></span>Agreed</span><span><span class="sw open"></span>Still open</span></div>
+      <div class="spine" aria-hidden="true">
+        <span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span>
+        <span class="seg open"></span>
+        <span class="seg"></span>
+        <span class="seg open"></span>
+        <span class="seg"></span>
+        <span class="seg open"></span>
+        <span class="seg"></span>
+      </div>
+      <div class="seg-labels" aria-hidden="true">
+        <span>&#167;2</span><span>&#167;4</span><span>&#167;5</span><span>&#167;6</span>
+        <span class="open">&#167;7.4</span>
+        <span>&#167;8</span>
+        <span class="open">&#167;9.1</span>
+        <span>&#167;10</span>
+        <span class="open">&#167;11.2</span>
+        <span>&#167;12</span>
+      </div>
+
+      <div class="drop">
+        <button class="icard dcard" type="button" data-pop="p74" style="min-height: 0;">
+          <span class="top"><span class="sec-tag">&#167;7.4</span>
+            <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+          <h3>Right of first refusal</h3>
+          <p>Survives termination for three years in their draft.</p>
+        </button>
+        <button class="icard dcard" type="button" data-pop="p91" style="min-height: 0;">
+          <span class="top"><span class="sec-tag">&#167;9.1</span>
+            <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+          <h3>Termination for cause</h3>
+          <p>Adds an undefined underperformance trigger.</p>
+        </button>
+        <button class="icard dcard" type="button" data-pop="p112" style="min-height: 0;">
+          <span class="top"><span class="sec-tag">&#167;11.2</span>
+            <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+          <h3>Indemnity basket cap</h3>
+          <p>$1.5M apart with different mechanics.</p>
+        </button>
+      </div>
+      <p class="track-cap">Ten sections in the agreement; seven are settled. Nothing needs a decision before Thursday.</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- ============ POPUPS ============ -->
+<div class="scrim" id="scrim" hidden>
+
+  <div class="pop" id="p74" hidden role="dialog" aria-modal="true" aria-labelledby="p74-t">
+    <button class="pop-close" type="button" data-close aria-label="Close"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+    <p class="tag">Open issue &#183; &#167;7.4 right of first refusal</p>
+    <h2 id="p74-t">Whether the ROFR survives termination</h2>
+    <p class="desc">We proposed that the right of first refusal ends when the agreement ends. They struck that and made it run for three years after termination. Nothing else in &#167;7.4 is in dispute.</p>
+    <div class="doc">
+      <div class="doc-text"><span class="doc-cl">7.4(c)&#160;&#160;</span>The rights granted under this Section 7.4 shall <del>terminate upon the termination of this Agreement</del> <ins>survive the termination of this Agreement for a period of three (3) years</ins>.</div>
+      <p class="doc-foot">Draft 4 redline &#183; &#167;7.4(c) &#183; received Aug 18</p>
+    </div>
+    <div class="tbl">
+      <div class="tr head"><span>Point</span><span>Our position</span><span>Their position</span></div>
+      <div class="tr"><span class="k">Survives termination</span><span>No</span><span>Yes</span></div>
+      <div class="tr"><span class="k">Duration after termination</span><span>None</span><span>Three years</span></div>
+      <div class="tr"><span class="k">Carve-out for affiliates</span><span>Yes</span><span>Not addressed</span></div>
+    </div>
+    <p class="out"><a href="#" target="_blank" rel="noopener">Open &#167;7.4 in the Purchase Agreement</a> <span class="arrow">&#8599;</span></p>
+  </div>
+
+  <div class="pop" id="p91" hidden role="dialog" aria-modal="true" aria-labelledby="p91-t">
+    <button class="pop-close" type="button" data-close aria-label="Close"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+    <p class="tag">Open issue &#183; &#167;9.1 termination for cause</p>
+    <h2 id="p91-t">What counts as cause</h2>
+    <p class="desc">Their draft adds material underperformance to the list of triggers. That phrase is not defined anywhere in the agreement, so it would be read against whoever is holding the pen. We asked for it to be struck or defined.</p>
+    <div class="doc">
+      <div class="doc-text"><span class="doc-cl">9.1&#160;&#160;</span>The Company may terminate this Agreement for Cause upon written notice. Cause means fraud, a material breach of Section 10, conviction of a felony, or <mark>material underperformance</mark>.</div>
+      <p class="doc-foot">Draft 4 &#183; &#167;9.1 &#183; undefined term highlighted</p>
+    </div>
+    <p class="out"><a href="#" target="_blank" rel="noopener">Open &#167;9.1 in the Purchase Agreement</a> <span class="arrow">&#8599;</span></p>
+  </div>
+
+  <div class="pop" id="p112" hidden role="dialog" aria-modal="true" aria-labelledby="p112-t">
+    <button class="pop-close" type="button" data-close aria-label="Close"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+    <p class="tag">Open issue &#183; &#167;11.2 indemnification</p>
+    <h2 id="p112-t">Where the basket caps out</h2>
+    <p class="desc">We are one and a half million apart on the cap. We also disagree on the mechanic: ours is a deductible, so they pay only above the threshold. Theirs tips, so the first dollar comes back once the threshold is crossed.</p>
+    <div class="numline">
+      <div style="position: relative; height: 76px;">
+        <span style="position: absolute; left: 0; right: 0; top: 50px; height: 1px; background: var(--line-strong);"></span>
+        <span style="position: absolute; left: 40%; width: 30%; top: 47px; height: 7px; border-radius: 4px; background: var(--red-wash);"></span>
+        <div style="position: absolute; left: 40%; top: 0; transform: translateX(-50%); text-align: center;">
+          <p style="margin: 0; font-size: 11px; font-weight: 600; color: var(--red);">Ours</p>
+          <p style="margin: 3px 0 0; font-size: 19px; font-weight: 600;">$2.0M</p>
+        </div>
+        <span style="position: absolute; left: 40%; top: 46px; width: 9px; height: 9px; margin-left: -4px; border-radius: 50%; background: var(--red);"></span>
+        <div style="position: absolute; left: 70%; top: 0; transform: translateX(-50%); text-align: center;">
+          <p style="margin: 0; font-size: 11px; font-weight: 600; color: var(--muted);">Theirs</p>
+          <p style="margin: 3px 0 0; font-size: 19px; font-weight: 600;">$3.5M</p>
+        </div>
+        <span style="position: absolute; left: 70%; top: 46px; width: 9px; height: 9px; margin-left: -4px; border-radius: 50%; background: var(--muted);"></span>
+      </div>
+      <div style="display: flex; justify-content: space-between; gap: 12px; margin-top: 4px;">
+        <span style="font-family: var(--mono); font-size: 10px; color: var(--muted);">$0</span>
+        <span style="font-family: var(--mono); font-size: 10.5px; color: var(--muted);">Cap on the indemnity basket &#183; $1.5M apart</span>
+        <span style="font-family: var(--mono); font-size: 10px; color: var(--muted);">$5M</span>
+      </div>
+    </div>
+    <p class="out"><a href="#" target="_blank" rel="noopener">Open &#167;11.2 in the Purchase Agreement</a> <span class="arrow">&#8599;</span></p>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var VARIANTS = ['A', 'B', 'C', 'D'];
+  var NAMES = { A: 'A &#183; Cards', B: 'B &#183; Zones', C: 'C &#183; Agenda', D: 'D &#183; Track' };
+  var pillsWrap = document.getElementById('pills');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-v]'));
+  var scrim = document.getElementById('scrim');
+  var pops = Array.prototype.slice.call(scrim.querySelectorAll('.pop'));
+  var themeBtn = document.getElementById('themeBtn');
+  var openPop = null;
+  var popOpener = null;
+
+  function setVariant(v) {
+    if (VARIANTS.indexOf(v) < 0) return;
+    sections.forEach(function (s) { s.classList.toggle('on', s.getAttribute('data-v') === v); });
+    Array.prototype.forEach.call(pillsWrap.children, function (b) {
+      b.setAttribute('aria-current', b.dataset.v === v ? 'true' : 'false');
+    });
+    try { localStorage.setItem('sbv4-variant', v); } catch (e) {}
+  }
+  Array.prototype.slice.call(pillsWrap.querySelectorAll('.pill')).forEach(function (b) {
+    b.addEventListener('click', function () { setVariant(b.dataset.v); });
+  });
+
+  function setTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    themeBtn.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    try { localStorage.setItem('sbv4-theme', t); } catch (e) {}
+  }
+  themeBtn.addEventListener('click', function () {
+    var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    setTheme(cur === 'dark' ? 'light' : 'dark');
+  });
+
+  function show(id) {
+    popOpener = document.activeElement;
+    pops.forEach(function (p) { p.hidden = p.id !== id; });
+    scrim.hidden = false;
+    openPop = id;
+    var close = document.getElementById(id).querySelector('[data-close]');
+    if (close) close.focus();
+  }
+  function hide() {
+    scrim.hidden = true;
+    pops.forEach(function (p) { p.hidden = true; });
+    openPop = null;
+    if (popOpener && popOpener.focus && document.contains(popOpener)) popOpener.focus();
+    popOpener = null;
+  }
+  document.addEventListener('click', function (e) {
+    var opener = e.target.closest ? e.target.closest('[data-pop]') : null;
+    if (opener) { show(opener.getAttribute('data-pop')); return; }
+    if (e.target.closest && e.target.closest('[data-close]')) { hide(); return; }
+    if (openPop && e.target === scrim) hide();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && openPop) { hide(); return; }
+    var i = ['1', '2', '3', '4'].indexOf(e.key);
+    if (i >= 0 && !openPop) setVariant(VARIANTS[i]);
+  });
+
+  var fsBtn = document.getElementById('fsBtn');
+  if (fsBtn) {
+    if (!(document.fullscreenEnabled || document.webkitFullscreenEnabled)) {
+      fsBtn.style.display = 'none';
+    } else {
+      fsBtn.addEventListener('click', function () {
+        var el = document.documentElement;
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+          (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+        } else {
+          (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+        }
+      });
+    }
+  }
+
+  var v = null, t = null;
+  try {
+    var q = new URLSearchParams(location.search);
+    v = q.get('v'); t = q.get('theme');
+  } catch (e) {}
+  if (!v) { try { v = localStorage.getItem('sbv4-variant'); } catch (e) {} }
+  if (!t) { try { t = localStorage.getItem('sbv4-theme'); } catch (e) {} }
+  setVariant(VARIANTS.indexOf(v) >= 0 ? v : 'A');
+  setTheme(t === 'dark' ? 'dark' : 'light');
+})();
+</script>
