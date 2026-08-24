@@ -354,7 +354,33 @@
 
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-  @media (prefers-reduced-motion: reduce) { .scrim, .pop { animation: none; } }
+  @keyframes house-reveal { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .sb-slide[data-reveal="play"] > .title { animation: house-reveal .24s ease-out 0s both; }
+  .sb-slide[data-reveal="play"] > .subtitle { animation: house-reveal .24s ease-out .07s both; }
+  .sb-slide[data-reveal="play"] > .slide-body,
+  .sb-slide[data-reveal="play"] > .zones,
+  .sb-slide[data-reveal="play"] > .trackwrap { animation: house-reveal .24s ease-out .14s both; }
+  .sb-slide[data-reveal="play"] > .cards > :nth-child(1),
+  .sb-slide[data-reveal="play"] .rows > :nth-child(1) { animation: house-reveal .24s ease-out .14s both; }
+  .sb-slide[data-reveal="play"] > .cards > :nth-child(2),
+  .sb-slide[data-reveal="play"] .rows > :nth-child(2) { animation: house-reveal .24s ease-out .21s both; }
+  .sb-slide[data-reveal="play"] > .cards > :nth-child(3),
+  .sb-slide[data-reveal="play"] .rows > :nth-child(3) { animation: house-reveal .24s ease-out .28s both; }
+  .sb-slide[data-reveal="play"] .split > .lead { animation: house-reveal .24s ease-out 0s both; }
+  .sb-slide[data-reveal="play"] .split .agreed-line { animation: house-reveal .24s ease-out .35s both; }
+  .sb-slide[data-reveal="play"] .trackwrap .legend { animation: house-reveal .24s ease-out .14s both; }
+  .sb-slide[data-reveal="play"] .trackwrap .spine { animation: house-reveal .24s ease-out .21s both; }
+  .sb-slide[data-reveal="play"] .trackwrap .seg-labels { animation: house-reveal .24s ease-out .28s both; }
+  .sb-slide[data-reveal="play"] .trackwrap .drop > :nth-child(1) { animation: house-reveal .24s ease-out .28s both; }
+  .sb-slide[data-reveal="play"] .trackwrap .drop > :nth-child(2) { animation: house-reveal .24s ease-out .35s both; }
+  .sb-slide[data-reveal="play"] .trackwrap .drop > :nth-child(3) { animation: house-reveal .24s ease-out .42s both; }
+  .sb-slide[data-reveal="play"] .trackwrap .track-cap { animation: house-reveal .24s ease-out .42s both; }
+  .sb-slide[data-reveal="play"] > .foot { animation: house-reveal .24s ease-out .49s both; }
+  .slide-count { margin-left: auto !important; white-space: nowrap; }
+  html.harness .sb-slide *, html.harness .sb-slide { animation: none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    .scrim, .pop, .sb-slide, .sb-slide * { animation: none !important; }
+  }
 
   /* ---- phone ---- */
   @media (max-width: 760px) {
@@ -560,13 +586,177 @@
 </head>
 <body>
 <div class="bar" data-export-chrome>
-  <p class="matter">Client deliverables · /visualize slide brief</p>
+  <p class="matter">Meridian / Halloway Purchase Agreement · Draft 4 · received Aug 18</p>
   <div class="pills" id="pills"><button class="pill" type="button" data-frame-button="1">1</button><button class="pill" type="button" data-frame-button="2">2</button><button class="pill" type="button" data-frame-button="3">3</button><button class="pill" type="button" data-frame-button="4">4</button><button class="pill" type="button" data-frame-button="5">5</button><button class="pill" type="button" data-frame-button="6">6</button><button class="pill" type="button" data-frame-button="7">7</button><button class="pill" type="button" data-frame-button="8">8</button><button class="editor-pill" id="mode-toggle" type="button" aria-pressed="false" data-editor-only>Edit</button><button class="editor-pill editor-tool" id="editor-undo" type="button" data-editor-only data-editor-tools title="Undo">Undo</button><button class="editor-pill editor-tool" id="editor-redo" type="button" data-editor-only data-editor-tools title="Redo">Redo</button><button class="editor-pill editor-tool" id="editor-duplicate" type="button" data-editor-only data-editor-tools title="Duplicate selection">Duplicate</button><button class="editor-pill editor-tool" id="editor-delete" type="button" data-editor-only data-editor-tools title="Delete selection">Delete</button><button class="editor-pill editor-tool" id="editor-font-down" type="button" data-editor-only data-editor-tools title="Decrease font size">A−</button><button class="editor-pill editor-tool" id="editor-font-up" type="button" data-editor-only data-editor-tools title="Increase font size">A+</button><button class="editor-pill editor-tool" id="editor-bold" type="button" data-editor-only data-editor-tools title="Bold"><b>B</b></button><button class="editor-pill editor-tool" id="editor-italic" type="button" data-editor-only data-editor-tools title="Italic"><i>I</i></button><button class="editor-pill editor-tool" id="editor-underline" type="button" data-editor-only data-editor-tools title="Underline"><u>U</u></button><select class="editor-pill editor-tool" id="editor-text-token" data-editor-only data-editor-tools title="Text color"><option value="">Text</option><option value="--ink">Ink</option><option value="--muted">Muted</option><option value="--faint">Faint</option><option value="--red">Red</option><option value="--red-strong">Strong red</option><option value="--line-strong">Hairline</option></select><select class="editor-pill editor-tool" id="editor-fill-token" data-editor-only data-editor-tools title="Box fill"><option value="">Fill</option><option value="transparent">None</option><option value="--card">Card</option><option value="--card-strong">Raised</option><option value="--tint">Tint</option><option value="--bg">Canvas</option></select><button class="editor-pill editor-tool" id="editor-reset" type="button" data-editor-only data-editor-tools title="Reset selected formatting">Reset</button><button class="editor-pill" id="export-template" type="button" data-editor-only>Export template</button><button class="editor-pill" id="export-html" type="button" data-editor-only>Export HTML</button><button class="editor-pill" id="cycle-alt" type="button" data-editor-only hidden>Alternative</button></div>
   <button class="theme-btn" id="theme-toggle" type="button" aria-label="Toggle dark mode"><svg class="i-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"></path></svg><svg class="i-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></button>
   <button class="theme-btn" id="fsBtn" type="button" aria-label="Fullscreen"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg></button>
 </div>
 <main class="stage slide-stage" id="slide-stage">
-  <section class="sb-slide on" id="s1" data-v="1" data-frame="1" aria-label="Slide 1 of 8">
+<section class="sb-slide on" id="s1" data-v="1" data-frame="1" aria-label="Slide 1 of 8">
+    <h1 class="title">Three issues remain open.</h1>
+    <p class="subtitle">Everything else in Draft 4 is agreed, and none of the three moves the price.</p>
+
+    <div class="sb-beat cards">
+      <button class="icard" type="button" data-pop="p74">
+        <span class="top"><span class="sec-tag">&#167;7.4</span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+        <h3>Right of first refusal</h3>
+        <p>They want the ROFR to survive three years past termination.</p>
+        <span class="act">View the redline</span>
+      </button>
+      <button class="icard" type="button" data-pop="p91">
+        <span class="top"><span class="sec-tag">&#167;9.1</span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+        <h3>Termination for cause</h3>
+        <p>Their draft adds an undefined &#8220;material underperformance&#8221; trigger.</p>
+        <span class="act">View the clause</span>
+      </button>
+      <button class="icard" type="button" data-pop="p112">
+        <span class="top"><span class="sec-tag">&#167;11.2</span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+        <h3>Indemnity basket cap</h3>
+        <p>We are $1.5M apart, and the mechanics differ.</p>
+        <span class="act">View the positions</span>
+      </button>
+    </div>
+
+    <div class="foot">
+      <p class="agreed-line">Agreed in Draft 4 &#8212; <span class="secs">&#167;2 Price &#183; &#167;4 Closing conditions &#183; &#167;5 Reps &amp; warranties &#183; &#167;8 Escrow &#183; &#167;10 Non-compete</span></p>
+      <p class="closer">Nothing needs a decision before Thursday.</p>
+      <p class="slide-count">Slide 1 of 8</p>
+    </div>
+  </section>
+
+<section class="sb-slide" id="s2" data-v="2" data-frame="2" aria-label="Slide 2 of 8">
+    <h1 class="title">Three issues remain open.</h1>
+    <p class="subtitle">The agreement in one picture: what is settled, and the three places that still need a call.</p>
+
+    <div class="zones">
+      <div class="zone-a">
+        <p class="zl">AGREED IN DRAFT 4</p>
+        <p class="zc"><span>&#167;2 Price</span> &#183; <span>&#167;4 Closing conditions</span> &#183; <span>&#167;5 Reps &amp; warranties</span> &#183; <span>&#167;8 Escrow</span> &#183; <span>&#167;10 Non-compete</span></p>
+      </div>
+      <div class="zone-b">
+        <p class="zl">STILL OPEN &#8212; NEEDS A CALL</p>
+        <div class="zgrid">
+          <button class="zcard" type="button" data-pop="p74">
+            <span class="top"><span class="sec-tag">&#167;7.4</span>
+              <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+            <h3>Right of first refusal</h3>
+            <p>Survives termination for three years in their draft.</p>
+          </button>
+          <button class="zcard" type="button" data-pop="p91">
+            <span class="top"><span class="sec-tag">&#167;9.1</span>
+              <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+            <h3>Termination for cause</h3>
+            <p>Adds an undefined underperformance trigger.</p>
+          </button>
+          <button class="zcard" type="button" data-pop="p112">
+            <span class="top"><span class="sec-tag">&#167;11.2</span>
+              <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+            <h3>Indemnity basket cap</h3>
+            <p>$1.5M apart with different mechanics.</p>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <p class="hint">Tap an open issue for the redline.</p>
+      <p class="closer">Nothing needs a decision before Thursday.</p>
+      <p class="slide-count">Slide 2 of 8</p>
+    </div>
+  </section>
+
+<section class="sb-slide" id="s3" data-v="3" data-frame="3" aria-label="Slide 3 of 8">
+    <div class="split">
+      <div class="lead">
+        <p class="big-n">3</p>
+        <h2>issues remain open on the Purchase Agreement.</h2>
+        <p>Everything else in Draft 4 is agreed. None of the three moves the price.</p>
+      </div>
+      <div class="rows">
+        <button class="rrow" type="button" data-pop="p74">
+          <span class="num">01</span>
+          <span class="mid">
+            <h3>Right of first refusal <span class="sec-tag">&#167;7.4</span></h3>
+            <p>They want it to survive three years past termination.</p>
+          </span>
+          <svg class="chev" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+        </button>
+        <button class="rrow" type="button" data-pop="p91">
+          <span class="num">02</span>
+          <span class="mid">
+            <h3>Termination for cause <span class="sec-tag">&#167;9.1</span></h3>
+            <p>Their draft adds an undefined &#8220;material underperformance&#8221; trigger.</p>
+          </span>
+          <svg class="chev" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+        </button>
+        <button class="rrow" type="button" data-pop="p112">
+          <span class="num">03</span>
+          <span class="mid">
+            <h3>Indemnity basket cap <span class="sec-tag">&#167;11.2</span></h3>
+            <p>We are $1.5M apart, and the mechanics differ.</p>
+          </span>
+          <svg class="chev" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+        </button>
+        <p class="agreed-line" style="margin-top: 6px;">Agreed in Draft 4 &#8212; <span class="secs">&#167;2 &#183; &#167;4 &#183; &#167;5 &#183; &#167;8 &#183; &#167;10</span>. Nothing needs a decision before Thursday.</p>
+      </div>
+    </div>
+    <div class="foot"><p></p><p class="slide-count">Slide 3 of 8</p></div>
+  </section>
+
+<section class="sb-slide" id="s4" data-v="4" data-frame="4" aria-label="Slide 4 of 8">
+    <h1 class="title">Three issues remain open.</h1>
+    <p class="subtitle">The agreement, section by section: filled is agreed, red is open.</p>
+
+    <div class="trackwrap">
+      <div class="legend"><span><span class="sw done"></span>Agreed</span><span><span class="sw open"></span>Still open</span></div>
+      <div class="spine" aria-hidden="true">
+        <span class="seg"></span><span class="seg"></span><span class="seg"></span><span class="seg"></span>
+        <span class="seg open"></span>
+        <span class="seg"></span>
+        <span class="seg open"></span>
+        <span class="seg"></span>
+        <span class="seg open"></span>
+        <span class="seg"></span>
+      </div>
+      <div class="seg-labels" aria-hidden="true">
+        <span>&#167;2</span><span>&#167;4</span><span>&#167;5</span><span>&#167;6</span>
+        <span class="open">&#167;7.4</span>
+        <span>&#167;8</span>
+        <span class="open">&#167;9.1</span>
+        <span>&#167;10</span>
+        <span class="open">&#167;11.2</span>
+        <span>&#167;12</span>
+      </div>
+
+      <div class="drop">
+        <button class="icard dcard" type="button" data-pop="p74" style="min-height: 0;">
+          <span class="top"><span class="sec-tag">&#167;7.4</span>
+            <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+          <h3>Right of first refusal</h3>
+          <p>Survives termination for three years in their draft.</p>
+        </button>
+        <button class="icard dcard" type="button" data-pop="p91" style="min-height: 0;">
+          <span class="top"><span class="sec-tag">&#167;9.1</span>
+            <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+          <h3>Termination for cause</h3>
+          <p>Adds an undefined underperformance trigger.</p>
+        </button>
+        <button class="icard dcard" type="button" data-pop="p112" style="min-height: 0;">
+          <span class="top"><span class="sec-tag">&#167;11.2</span>
+            <svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+          <h3>Indemnity basket cap</h3>
+          <p>$1.5M apart with different mechanics.</p>
+        </button>
+      </div>
+      <p class="track-cap">Ten sections in the agreement; seven are settled. Nothing needs a decision before Thursday.</p>
+    </div>
+    <div class="foot"><p></p><p class="slide-count">Slide 4 of 8</p></div>
+  </section>
+
+<section class="sb-slide" id="s5" data-v="5" data-frame="5" aria-label="Slide 5 of 8">
     <h1 class="title" data-editable>The work got better. The format did not.</h1>
     <p class="subtitle" data-editable>Decades of sharper analysis and faster drafting — delivered as email and long documents.</p>
     <div class="sb-beat slide-body" data-editor-object>
@@ -578,51 +768,20 @@
       </div>
       <div class="cmp-note"><p data-editable>AI made the reading pile bigger, not clearer.</p></div>
     </div>
-    <div class="foot"><p data-editable>The format is the opportunity.</p><p data-editable>Slide 1 of 8</p></div>
+    <div class="foot"><p data-editable>The format is the opportunity.</p><p data-editable>Slide 5 of 8</p></div>
   </section>
 
-  <section class="sb-slide" id="s2" data-v="2" data-frame="2" aria-label="Slide 2 of 8">
-    <h1 class="title" data-editable>The memo starts it. The call finishes it.</h1>
-    <p class="subtitle" data-editable>Twelve pages go out; a few fragments are retained.</p>
-    <div class="sb-beat slide-body figure-row">
-      <div class="house-figure" data-editor-object>
-        <div class="funnel"><div class="funnel-box"><p class="mono">THE MEMO</p><h3>Twelve pages</h3><p>Every answer and caveat.</p></div><div class="ink-arrow" aria-hidden="true">→</div><div class="funnel-box"><p class="mono">RETAINS</p><h3>A few fragments</h3><p>After one reading.</p></div></div>
-        <p class="gap-line">The call fills the gap.</p>
-      </div>
-      <div class="rows">
-        <div class="rrow"><span class="num">01</span><span class="mid"><h3 data-editable>The memo lands</h3><p data-editable>The client reads it once.</p></span></div>
-        <div class="rrow"><span class="num">02</span><span class="mid"><h3 data-editable>Questions pile up</h3><p data-editable>What does this mean for us? What do we do next?</p></span></div>
-        <div class="rrow"><span class="num">03</span><span class="mid"><h3 data-editable>The lawyer explains it live</h3><p data-editable>That call was the real deliverable.</p></span></div>
-      </div>
-    </div>
-    <div class="foot"><p data-editable></p><p data-editable>Slide 2 of 8</p></div>
-  </section>
-
-  <section class="sb-slide" id="s3" data-v="3" data-frame="3" aria-label="Slide 3 of 8">
-    <h1 class="title" data-editable>The build cost just collapsed.</h1>
-    <p class="subtitle" data-editable>Interactive explanation environments took coding skill, design skill, and uneconomic time.</p>
-    <div class="slide-body figure-row">
-      <div class="house-figure before-after" data-editor-object>
-        <div class="ba-panel"><p class="mono">BY HAND</p><p data-editable>Coding skill, design skill, uneconomic time.</p></div>
-        <div class="edge">THE AGENT<svg width="42" height="14" viewBox="0 0 42 14" fill="none"><path d="M1 7h38M34 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="ba-panel"><p class="mono">IN MINUTES</p><p data-editable>The lawyer supplies the work, the audience, the point.</p></div>
-      </div>
-      <div class="rows"><div class="rrow"><span class="num">01</span><span class="mid"><h3 data-editable>The lawyer stays responsible</h3><p data-editable>The analysis and the final word.</p></span></div></div>
-    </div>
-    <div class="foot"><p data-editable></p><p data-editable>Slide 3 of 8</p></div>
-  </section>
-
-  <section class="sb-slide" id="s4" data-v="4" data-frame="4" aria-label="Slide 4 of 8">
+<section class="sb-slide" id="s6" data-v="6" data-frame="6" aria-label="Slide 6 of 8">
     <h1 class="title" data-editable>Research memo in. Decision map out.</h1>
     <p class="subtitle" data-editable>Ten minutes, no code — /visualize asks at most three questions, then builds.</p>
     <div class="slide-body figure-row">
       <div class="house-figure figure-path" data-editor-object><div class="path-line"></div><div class="path-points"><div class="path-point"><b>MEMO</b></div><div class="path-point"><b>QUESTIONS</b></div><div class="path-point"><b>EDIT</b></div><div class="path-point"><b>DECISION MAP</b></div></div></div>
       <div class="cards one"><button class="icard" type="button" data-pop="slide-authority"><span class="top"><span class="sec-tag">§102(b)(7)</span><svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span><h3 data-editable>The demo matter</h3><p data-editable>Delaware officer exculpation — the statute the live build explains.</p><span class="act">View the statute</span></button></div>
     </div>
-    <div class="foot"><p data-editable>Tap the card for the authority, quoted in place.</p><p data-editable>Slide 4 of 8</p></div>
+    <div class="foot"><p data-editable>Tap the card for the authority, quoted in place.</p><p data-editable>Slide 6 of 8</p></div>
   </section>
 
-  <section class="sb-slide" id="s5" data-v="5" data-frame="5" aria-label="Slide 5 of 8">
+<section class="sb-slide" id="s7" data-v="7" data-frame="7" aria-label="Slide 7 of 8">
     <h1 class="title" data-editable>Six things make these artifacts work.</h1>
     <p class="subtitle" data-editable>Same contract on every matter: answer first, tested parts, sources in place.</p>
     <div class="slide-body house-figure hub" data-editor-object>
@@ -634,37 +793,10 @@
       <div class="spoke left s5"><b>THE LAWYER EDITS</b><span class="hub-label">CONTROL</span></div>
       <div class="spoke right s6"><b>THE FIRM’S LOOK</b><span class="hub-label">CUSTOMIZATION</span></div>
     </div>
-    <div class="foot"><p data-editable>Branding and tone flex; fidelity and evidence do not.</p><p data-editable>Slide 5 of 8</p></div>
+    <div class="foot"><p data-editable>Branding and tone flex; fidelity and evidence do not.</p><p data-editable>Slide 7 of 8</p></div>
   </section>
 
-  <section class="sb-slide" id="s6" data-v="6" data-frame="6" aria-label="Slide 6 of 8">
-    <h1 class="title" data-editable>The failure modes are predictable.</h1>
-    <p class="subtitle" data-editable>Built right: one decision, one point, sources in reach.</p>
-    <div class="slide-body figure-row">
-      <div class="house-figure" data-editor-object><div class="funnel"><div class="funnel-box"><p class="mono">EVERYTHING YOU COULD SHOW</p><p>The full memo, every authority.</p></div><div class="edge">JUDGMENT<svg width="42" height="14" viewBox="0 0 42 14" fill="none"><path d="M1 7h38M34 2l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="funnel-box"><p class="mono">WHAT SERVES THE DECISION</p><p>The answer, the options, the proof.</p></div></div><p class="gap-line" style="border-color:var(--ink);color:var(--ink)">One page the client actually uses.</p></div>
-      <div class="cards">
-        <div class="zcard"><span class="top"><span class="sec-tag">BREAKS IT</span></span><h3 data-editable>The whole memo in boxes</h3><p data-editable>Undigested content, restated.</p></div>
-        <div class="zcard"><span class="top"><span class="sec-tag">BREAKS IT</span></span><h3 data-editable>Decoration</h3><p data-editable>Anything that competes with the point.</p></div>
-        <div class="zcard"><span class="top"><span class="sec-tag">BREAKS IT</span></span><h3 data-editable>Citations without provenance</h3><p data-editable>A cite the reader cannot check.</p></div>
-      </div>
-    </div>
-    <div class="foot"><p data-editable></p><p data-editable>Slide 6 of 8</p></div>
-  </section>
-
-  <section class="sb-slide" id="s7" data-v="7" data-frame="7" aria-label="Slide 7 of 8">
-    <h1 class="title" data-editable>One capability, many legal uses.</h1>
-    <p class="subtitle" data-editable>The same three layers — slide, popup, source — on any matter.</p>
-    <div class="slide-body house-figure hub four" data-editor-object>
-      <div class="hub-center mono">/VISUALIZE</div>
-      <div class="spoke left s1"><b>RESEARCH EXPLAINERS</b><span class="hub-label">ANALYSIS</span></div>
-      <div class="spoke right s2"><b>REDLINE WALKTHROUGHS</b><span class="hub-label">CHANGES</span></div>
-      <div class="spoke left s3"><b>ENGAGEMENT + PRICING</b><span class="hub-label">OPTIONS</span></div>
-      <div class="spoke right s4"><b>DOCUMENT COMPANIONS</b><span class="hub-label">NAVIGATION</span></div>
-    </div>
-    <div class="foot"><p data-editable></p><p data-editable>Slide 7 of 8</p></div>
-  </section>
-
-  <section class="sb-slide" id="s8" data-v="8" data-frame="8" aria-label="Slide 8 of 8">
+<section class="sb-slide" id="s8" data-v="8" data-frame="8" aria-label="Slide 8 of 8">
     <h1 class="title" data-editable>Design becomes part of the lawyer's skill set.</h1>
     <p class="subtitle" data-editable>Email, PDF, deck — and now the brief built for the client, not the file.</p>
     <div class="slide-body house-figure timeline" data-editor-object>
@@ -677,6 +809,65 @@
   </section>
 </main>
 <div class="scrim" id="popup-scrim" hidden>
+<div class="pop" id="p74" hidden role="dialog" aria-modal="true" aria-labelledby="p74-t">
+    <button class="pop-close" type="button" data-close aria-label="Close"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+    <p class="tag">Open issue &#183; &#167;7.4 right of first refusal</p>
+    <h2 id="p74-t">Whether the ROFR survives termination</h2>
+    <p class="desc">We proposed that the right of first refusal ends when the agreement ends. They struck that and made it run for three years after termination. Nothing else in &#167;7.4 is in dispute.</p>
+    <div class="doc">
+      <div class="doc-text"><span class="doc-cl">7.4(c)&#160;&#160;</span>The rights granted under this Section 7.4 shall <del>terminate upon the termination of this Agreement</del> <ins>survive the termination of this Agreement for a period of three (3) years</ins>.</div>
+      <p class="doc-foot">Draft 4 redline &#183; &#167;7.4(c) &#183; received Aug 18</p>
+    </div>
+    <div class="tbl">
+      <div class="tr head"><span>Point</span><span>Our position</span><span>Their position</span></div>
+      <div class="tr"><span class="k">Survives termination</span><span>No</span><span>Yes</span></div>
+      <div class="tr"><span class="k">Duration after termination</span><span>None</span><span>Three years</span></div>
+      <div class="tr"><span class="k">Carve-out for affiliates</span><span>Yes</span><span>Not addressed</span></div>
+    </div>
+    <p class="out"><a href="#" target="_blank" rel="noopener">Open &#167;7.4 in the Purchase Agreement</a> <span class="arrow">&#8599;</span></p>
+  </div>
+
+  <div class="pop" id="p91" hidden role="dialog" aria-modal="true" aria-labelledby="p91-t">
+    <button class="pop-close" type="button" data-close aria-label="Close"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+    <p class="tag">Open issue &#183; &#167;9.1 termination for cause</p>
+    <h2 id="p91-t">What counts as cause</h2>
+    <p class="desc">Their draft adds material underperformance to the list of triggers. That phrase is not defined anywhere in the agreement, so it would be read against whoever is holding the pen. We asked for it to be struck or defined.</p>
+    <div class="doc">
+      <div class="doc-text"><span class="doc-cl">9.1&#160;&#160;</span>The Company may terminate this Agreement for Cause upon written notice. Cause means fraud, a material breach of Section 10, conviction of a felony, or <mark>material underperformance</mark>.</div>
+      <p class="doc-foot">Draft 4 &#183; &#167;9.1 &#183; undefined term highlighted</p>
+    </div>
+    <p class="out"><a href="#" target="_blank" rel="noopener">Open &#167;9.1 in the Purchase Agreement</a> <span class="arrow">&#8599;</span></p>
+  </div>
+
+  <div class="pop" id="p112" hidden role="dialog" aria-modal="true" aria-labelledby="p112-t">
+    <button class="pop-close" type="button" data-close aria-label="Close"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+    <p class="tag">Open issue &#183; &#167;11.2 indemnification</p>
+    <h2 id="p112-t">Where the basket caps out</h2>
+    <p class="desc">We are one and a half million apart on the cap. We also disagree on the mechanic: ours is a deductible, so they pay only above the threshold. Theirs tips, so the first dollar comes back once the threshold is crossed.</p>
+    <div class="numline">
+      <div style="position: relative; height: 76px;">
+        <span style="position: absolute; left: 0; right: 0; top: 50px; height: 1px; background: var(--line-strong);"></span>
+        <span style="position: absolute; left: 40%; width: 30%; top: 47px; height: 7px; border-radius: 4px; background: var(--red-wash);"></span>
+        <div style="position: absolute; left: 40%; top: 0; transform: translateX(-50%); text-align: center;">
+          <p style="margin: 0; font-size: 11px; font-weight: 600; color: var(--red);">Ours</p>
+          <p style="margin: 3px 0 0; font-size: 19px; font-weight: 600;">$2.0M</p>
+        </div>
+        <span style="position: absolute; left: 40%; top: 46px; width: 9px; height: 9px; margin-left: -4px; border-radius: 50%; background: var(--red);"></span>
+        <div style="position: absolute; left: 70%; top: 0; transform: translateX(-50%); text-align: center;">
+          <p style="margin: 0; font-size: 11px; font-weight: 600; color: var(--muted);">Theirs</p>
+          <p style="margin: 3px 0 0; font-size: 19px; font-weight: 600;">$3.5M</p>
+        </div>
+        <span style="position: absolute; left: 70%; top: 46px; width: 9px; height: 9px; margin-left: -4px; border-radius: 50%; background: var(--muted);"></span>
+      </div>
+      <div style="display: flex; justify-content: space-between; gap: 12px; margin-top: 4px;">
+        <span style="font-family: var(--mono); font-size: 10px; color: var(--muted);">$0</span>
+        <span style="font-family: var(--mono); font-size: 10.5px; color: var(--muted);">Cap on the indemnity basket &#183; $1.5M apart</span>
+        <span style="font-family: var(--mono); font-size: 10px; color: var(--muted);">$5M</span>
+      </div>
+    </div>
+    <p class="out"><a href="#" target="_blank" rel="noopener">Open &#167;11.2 in the Purchase Agreement</a> <span class="arrow">&#8599;</span></p>
+  </div>
+
   <div class="pop" id="slide-authority" role="dialog" aria-modal="true" aria-labelledby="slide-authority-t">
     <button class="pop-close" type="button" aria-label="Close source popup">&#215;</button>
     <p class="tag" data-editable>Authority · 8 Del. C. §102(b)(7)</p>
@@ -3176,6 +3367,8 @@
   var frame = 1;
   var beatTimes = [];
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var revealTimer = 0;
+  var popOpener = null;
 
   function safeJSON(value) {
     return JSON.stringify(value).replace(/</g, '\\u003c');
@@ -3197,7 +3390,20 @@
     var slides = Array.prototype.slice.call(document.querySelectorAll('.sb-slide'));
     if (!slides.length) return;
     frame = Math.max(1, Math.min(slides.length, Number(next) || 1));
-    slides.forEach(function (slide, index) { slide.classList.toggle('on', index === frame - 1); });
+    clearTimeout(revealTimer);
+    slides.forEach(function (slide, index) {
+      var active = index === frame - 1;
+      slide.classList.toggle('on', active);
+      slide.removeAttribute('data-reveal');
+      if (!active) return;
+      if (document.documentElement.classList.contains('harness') || reduceMotion.matches) {
+        slide.setAttribute('data-reveal', 'settled');
+      } else {
+        void slide.offsetWidth;
+        slide.setAttribute('data-reveal', 'play');
+        revealTimer = setTimeout(function () { if (slide.classList.contains('on')) slide.setAttribute('data-reveal', 'settled'); }, 760);
+      }
+    });
     document.querySelectorAll('[data-frame-button]').forEach(function (button) {
       button.setAttribute('aria-current', Number(button.dataset.frameButton) === frame ? 'true' : 'false');
     });
@@ -3230,6 +3436,7 @@
     var scrim = document.getElementById('popup-scrim');
     var pop = document.getElementById(id);
     if (!scrim || !pop) return;
+    popOpener = document.activeElement;
     scrim.querySelectorAll('.pop').forEach(function (item) { item.hidden = item !== pop; });
     scrim.hidden = false; pop.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -3242,6 +3449,8 @@
     scrim.hidden = true;
     scrim.querySelectorAll('.pop').forEach(function (item) { item.hidden = true; });
     document.body.style.overflow = '';
+    if (popOpener && popOpener.focus && document.contains(popOpener)) popOpener.focus();
+    popOpener = null;
   }
 
   function snapshot() {
@@ -3406,11 +3615,15 @@
   var editing = false, serial = 0, selection = [], undo = [], redo = [], gesture = null, textUndoArmed = false;
   var unitSelector = kind === 'slide' ? [
     '.sb-slide .title','.sb-slide .subtitle','.sb-slide .foot p','.tbl','.tr','.tr span','.cmp-note','.cmp-note p',
-    '.icard','.zcard','.rrow','.icard .top','.icard h3','.icard p','.icard .act','.zcard .top','.zcard h3','.zcard p',
-    '.rrow .num','.rrow .mid','.rrow h3','.rrow p','.house-figure','.funnel','.funnel-box','.funnel-box > *','.ink-arrow',
+    '.cards','.icard','.zcard','.rrow','.icard .top','.icard .top > *','.icard h3','.icard p','.icard .act','.zcard .top','.zcard .top > *','.zcard h3','.zcard p',
+    '.chev','.chev path','.zones','.zone-a','.zone-a .zl','.zone-a .zc','.zone-a .zc span','.zone-b','.zone-b .zl','.zgrid',
+    '.split','.split .lead','.split .lead .big-n','.split .lead h2','.split .lead p','.rows','.rrow .num','.rrow .mid','.rrow h3','.rrow h3 .sec-tag','.rrow p',
+    '.trackwrap','.legend','.legend > span','.legend .sw','.spine','.spine .seg','.seg-labels','.seg-labels span','.drop','.dcard','.track-cap',
+    '.house-figure','.funnel','.funnel-box','.funnel-box > *','.ink-arrow',
     '.gap-line','.before-after','.ba-panel','.ba-panel > *','.edge','.edge svg','.edge svg path','.figure-path','.path-line',
     '.path-points','.path-point','.path-point > *','.hub','.hub-center','.spoke','.spoke > *','.timeline','.timeline-item',
-    '.timeline-item > *','.pop','.pop .tag','.pop h2','.pop .desc','.doc','.doc img','.doc-text','.doc-cl','.doc-foot','.out','.out a'
+    '.timeline-item > *','.pop','.pop .tag','.pop h2','.pop .desc','.doc','.doc img','.doc-text','.doc-cl','.doc-text del','.doc-text ins','.doc-text mark','.doc-foot',
+    '.numline','.numline > div','.numline div > span','.numline div > div','.numline div p','.out','.out a','.out .arrow'
   ].join(',') : [
     '.exp > .kicker','.kicker p','.exp > h2','.exp > .ans','.exp-row','.exp-side','.qcard','.qcard h4','.qcard p','.qcard .cite',
     '.exp-fig','.fig-h','.zones-fig','.zf-a','.zf-a .zl','.zf-covered','.zf-covered b','.zf-covered i','.zf-mid','.zf-mid span',
@@ -3591,6 +3804,7 @@
   function exportHTML(template,shouldDownload){all('[contenteditable="true"]').forEach(function(el){el.blur();});var out=scrubClone(template);if(shouldDownload)download(out,kind+(template?'-template':'')+'.html');return out;}
   function selfTest(){
     setMode(true);stamp();var selector=kind==='slide'?'.title':'.zf-no',initial=all(selector).length,target=all(selector).filter(visible)[0],checks=[];
+    var segments=all('.spine .seg'),labels=all('.seg-labels span'),drops=all('.drop .dcard');checks.push(segments.length===10&&segments.every(function(el){return el.dataset.editorUnit==='1';}));checks.push(labels.length===10&&labels.every(function(el){return el.dataset.editorUnit==='1';}));checks.push(drops.length===3&&drops.every(function(el){return el.dataset.editorUnit==='1';}));
     select([target]);duplicateSelection();checks.push(all(selector).length===initial+1);doUndo();checks.push(all(selector).length===initial);doRedo();checks.push(all(selector).length===initial+1);select([all(selector).filter(visible).pop()]);deleteSelection();checks.push(all(selector).length===initial);doUndo();checks.push(all(selector).length===initial+1);
     select([all(selector).filter(visible)[0]]);var before=getComputedStyle(selection[0]).fontSize;changeFont(1);checks.push(getComputedStyle(selection[0]).fontSize!==before);doUndo();
     target=all(selector).filter(visible)[0];select([target]);applyToken('color','--red');checks.push(target.style.color==='var(--red)');doUndo();
