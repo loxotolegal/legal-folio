@@ -19,7 +19,7 @@
     --shadow-soft: 0 1px 3px rgba(17, 17, 17, 0.08), 0 6px 18px rgba(17, 17, 17, 0.05);
     --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
     --serif: Charter, "Iowan Old Style", Georgia, serif;
-    --mono: "SFMono-Regular", Menlo, Consolas, monospace;
+    --label: var(--sans);
   }
   [data-theme="dark"] {
     color-scheme: dark;
@@ -32,24 +32,6 @@
     --shadow: 0 22px 60px rgba(0, 0, 0, 0.6);
     --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.35);
   }
-/* Embedded diagram-kit runs on house tokens — the vendored --dg-* palette is
-   overridden here (round 11; same technique as the harmonized roster). */
-:root, [data-theme="light"], [data-theme="dark"] {
-  --dg-ink: var(--ink) !important;
-  --dg-paper: var(--card) !important;
-  --dg-muted: var(--muted) !important;
-  --dg-accent: var(--ink) !important;
-  --dg-tint: var(--tint) !important;
-  --dg-tint-2: var(--card-strong) !important;
-  --dg-c-human: var(--ink) !important;
-  --dg-c-local: var(--muted) !important;
-  --dg-c-agent: var(--ink) !important;
-  --dg-font-mono: var(--mono) !important;
-  --dg-font-serif: var(--sans) !important;
-  --dg-w: 1 !important;
-  --dg-w-hair: 1 !important;
-}
-
 
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
@@ -80,7 +62,7 @@
 
   .title { margin: 0; font-size: clamp(30px, 4vw, 52px); font-weight: 700; letter-spacing: -0.022em; line-height: 1.05; }
   .subtitle { margin: 12px 0 0; font-size: clamp(14px, 1.4vw, 17px); line-height: 1.5; color: var(--muted); max-width: 66ch; }
-  .sec-tag { font-family: var(--mono); font-size: 12px; color: var(--red); }
+  .sec-tag { font-family: var(--label); font-size: 12px; color: var(--red); }
   .chev { color: var(--faint); flex: 0 0 auto; }
   .foot { display: flex; justify-content: space-between; gap: 18px; align-items: baseline; border-top: 1px solid var(--line); padding-top: 14px; margin-top: clamp(26px, 5vh, 44px); flex-wrap: wrap; }
   .foot p { margin: 0; font-size: 13px; color: var(--muted); }
@@ -102,15 +84,15 @@
   /* ---- zones diagram, house dialect ---- */
   .zones-fig { border: 1px solid var(--line-strong); border-radius: 4px; overflow: hidden; box-shadow: var(--shadow-soft); }
   .zf-a { background: var(--tint); padding: 16px 18px 18px; }
-  .zf-a .zl { margin: 0 0 10px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--muted); text-align: center; }
+  .zf-a .zl { margin: 0 0 10px; font-family: var(--label); font-size: 11px; letter-spacing: .08em; color: var(--muted); text-align: center; }
   .zf-covered { position: relative; width: 100%; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--card); padding: 14px 34px 14px 12px; text-align: center; }
   .zf-covered b { display: block; font-size: 15px; font-weight: 600; }
   .zf-covered i { display: block; margin-top: 4px; font-style: normal; font-size: 12px; line-height: 1.4; color: var(--muted); }
   .zf-mid { display: flex; align-items: center; gap: 10px; padding: 10px 18px; background: var(--card); }
   .zf-mid .zf-rule { flex: 1 1 auto; height: 1px; background: var(--line-strong); }
-  .zf-mid .zf-line-label { flex: 0 0 auto; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--ink); font-weight: 600; text-align: center; }
+  .zf-mid .zf-line-label { flex: 0 0 auto; font-family: var(--label); font-size: 11px; letter-spacing: .06em; color: var(--ink); font-weight: 600; text-align: center; }
   .zf-b { background: var(--card); border-top: 2px solid var(--red); padding: 14px 18px 18px; }
-  .zf-b .zl { margin: 0 0 10px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--red); text-align: center; }
+  .zf-b .zl { margin: 0 0 10px; font-family: var(--label); font-size: 11px; letter-spacing: .08em; color: var(--red); text-align: center; }
   .zf-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .zf-no { position: relative; width: 100%; border: 1px solid var(--red); border-radius: 4px; background: var(--red-wash); padding: 12px 30px 12px 10px; text-align: center; }
   /* Dark-mode law: never fill a box with the accent in dark — outline only. */
@@ -128,7 +110,7 @@
   .cmp-card .n { margin: 0; font-size: 44px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
   .cmp-card .d { margin: 8px 0 0; font-size: 13px; line-height: 1.45; color: var(--muted); }
   .cmp-mid { flex: 0 0 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
-  .cmp-mid span { font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+  .cmp-mid span { font-family: var(--label); font-size: 10.5px; color: var(--muted); }
   .cmp-note { margin-top: 14px; border: 1px solid var(--line); border-radius: 4px; background: var(--tint); padding: 13px 16px; }
   .cmp-note p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
 
@@ -136,12 +118,12 @@
   .exp { border: 1px solid var(--line-strong); border-radius: 5px; background: var(--card); box-shadow: var(--shadow-soft); padding: clamp(18px, 2.2vw, 30px); margin-top: clamp(18px, 3vh, 30px); }
   .exp .kicker { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   .exp .kicker p { margin: 0; }
-  .exp .k-l { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--red); }
-  .exp .k-r { font-family: var(--mono); font-size: 10.5px; color: var(--faint); }
+  .exp .k-l { font-family: var(--label); font-size: 11px; letter-spacing: .06em; color: var(--red); }
+  .exp .k-r { font-family: var(--label); font-size: 10.5px; color: var(--faint); }
   .exp h2 { margin: 10px 0 0; font-size: clamp(22px, 2.4vw, 32px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
   .exp .ans { margin: 10px 0 0; width: 100%; max-width: none; font-size: 14.5px; line-height: 1.55; color: var(--muted); }
   .exp .ans b { color: var(--ink); }
-  .cite { font-family: var(--mono); font-size: 12px; color: var(--red); text-decoration: none; border-bottom: 1px solid var(--red-wash); }
+  .cite { font-family: var(--label); font-size: 12px; color: var(--red); text-decoration: none; border-bottom: 1px solid var(--red-wash); }
   .exp-row { display: flex; gap: 14px; margin-top: 20px; align-items: stretch; }
   .exp-side { flex: 1 1 0; display: flex; flex-direction: column; justify-content: center; gap: 12px; min-width: 0; }
   .qcard { border: 1px solid var(--line); border-radius: 4px; background: var(--card-strong); padding: 14px 15px; }
@@ -152,7 +134,7 @@
   .exp-fig .fig-h { margin: 0 0 10px; font-size: 13px; font-weight: 600; text-align: center; }
   .statute { margin-top: 16px; border: 1px solid var(--line); border-radius: 4px; background: var(--card-strong); overflow: hidden; }
   .statute .s-t { padding: 12px 16px 11px; font-family: var(--serif); font-size: 14px; line-height: 1.6; }
-  .statute .s-f { margin: 0; padding: 8px 16px 9px; border-top: 1px solid var(--line); background: var(--tint); font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+  .statute .s-f { margin: 0; padding: 8px 16px 9px; border-top: 1px solid var(--line); background: var(--tint); font-family: var(--label); font-size: 10.5px; color: var(--muted); }
   ins { color: var(--insert); text-decoration: underline; text-underline-offset: 2px; }
   .exp .scope { margin: 14px 0 0; font-size: 11.5px; line-height: 1.5; color: var(--faint); }
 
@@ -183,7 +165,7 @@
     --shadow-soft: 0 1px 3px rgba(17, 17, 17, 0.08), 0 6px 18px rgba(17, 17, 17, 0.05);
     --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
     --serif: Charter, "Iowan Old Style", Georgia, serif;
-    --mono: "SFMono-Regular", Menlo, Consolas, monospace;
+    --label: var(--sans);
   }
   [data-theme="dark"] {
     color-scheme: dark;
@@ -196,24 +178,6 @@
     --shadow: 0 22px 60px rgba(0, 0, 0, 0.6);
     --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.35);
   }
-/* Embedded diagram-kit runs on house tokens — the vendored --dg-* palette is
-   overridden here (round 11; same technique as the harmonized roster). */
-:root, [data-theme="light"], [data-theme="dark"] {
-  --dg-ink: var(--ink) !important;
-  --dg-paper: var(--card) !important;
-  --dg-muted: var(--muted) !important;
-  --dg-accent: var(--ink) !important;
-  --dg-tint: var(--tint) !important;
-  --dg-tint-2: var(--card-strong) !important;
-  --dg-c-human: var(--ink) !important;
-  --dg-c-local: var(--muted) !important;
-  --dg-c-agent: var(--ink) !important;
-  --dg-font-mono: var(--mono) !important;
-  --dg-font-serif: var(--sans) !important;
-  --dg-w: 1 !important;
-  --dg-w-hair: 1 !important;
-}
-
 
   * { box-sizing: border-box; }
   html, body { height: 100%; }
@@ -268,7 +232,7 @@
   .closer { margin: 0; font-size: 13px; color: var(--muted); }
   .foot { display: flex; justify-content: space-between; gap: 18px; align-items: baseline; border-top: 1px solid var(--line); padding-top: 14px; margin-top: clamp(28px, 5vh, 48px); flex-wrap: wrap; }
 
-  .sec-tag { font-family: var(--mono); font-size: 12.5px; color: var(--red); }
+  .sec-tag { font-family: var(--label); font-size: 12.5px; color: var(--red); }
   .chev { color: var(--faint); flex: 0 0 auto; transition: transform .15s ease, color .15s ease; }
 
   /* ============ A · ISSUE CARDS ============ */
@@ -289,11 +253,11 @@
   /* ============ B · ZONES ============ */
   .zones { margin-top: clamp(24px, 4.5vh, 44px); border: 1px solid var(--line-strong); border-radius: 4px; overflow: hidden; box-shadow: var(--shadow-soft); }
   .zone-a { background: var(--tint); padding: 18px 22px 16px; }
-  .zone-a .zl { margin: 0 0 7px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--muted); }
+  .zone-a .zl { margin: 0 0 7px; font-family: var(--label); font-size: 11px; letter-spacing: .08em; color: var(--muted); }
   .zone-a .zc { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink); }
   .zone-a .zc span { white-space: nowrap; }
   .zone-b { background: var(--card); border-top: 2px solid var(--red); padding: 18px 22px 20px; }
-  .zone-b .zl { margin: 0 0 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--red); }
+  .zone-b .zl { margin: 0 0 14px; font-family: var(--label); font-size: 11px; letter-spacing: .08em; color: var(--red); }
   .zone-b .zgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
   .zcard {
     display: flex; flex-direction: column; gap: 8px; text-align: left;
@@ -322,7 +286,7 @@
   }
   .rrow:hover { transform: translateX(3px); border-color: var(--red); }
   .rrow:hover .chev { transform: translateX(3px); color: var(--red); }
-  .rrow .num { font-family: var(--mono); font-size: 13px; color: var(--faint); flex: 0 0 auto; }
+  .rrow .num { font-family: var(--label); font-size: 13px; color: var(--faint); flex: 0 0 auto; }
   .rrow .mid { flex: 1 1 auto; min-width: 0; }
   .rrow h3 { margin: 0; font-size: 18px; font-weight: 600; line-height: 1.25; }
   .rrow h3 .sec-tag { margin-left: 8px; font-weight: 400; }
@@ -338,7 +302,7 @@
   .seg { height: 12px; background: var(--ink); border-radius: 2px; opacity: .82; }
   .seg.open { height: 22px; background: var(--card); border: 2px solid var(--red); opacity: 1; }
   .seg-labels { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; margin-top: 6px; }
-  .seg-labels span { font-family: var(--mono); font-size: 10.5px; color: var(--faint); text-align: center; }
+  .seg-labels span { font-family: var(--label); font-size: 10.5px; color: var(--faint); text-align: center; }
   .seg-labels span.open { color: var(--red); font-weight: 600; }
   .drop { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 26px; }
   .dcard { position: relative; }
@@ -364,13 +328,13 @@
     display: flex; align-items: center; justify-content: center; color: var(--muted);
   }
   .pop-close:hover { background: var(--red-wash); color: var(--ink); }
-  .pop .tag { margin: 0; font-family: var(--mono); font-size: 11.5px; color: var(--red); padding-right: 44px; }
+  .pop .tag { margin: 0; font-family: var(--label); font-size: 11.5px; color: var(--red); padding-right: 44px; }
   .pop h2 { margin: 9px 0 0; font-size: 23px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.2; padding-right: 44px; }
   .pop .desc { margin: 10px 0 0; font-size: 14.5px; line-height: 1.55; color: var(--muted); }
   .doc { margin-top: 18px; border: 1px solid var(--line); border-radius: 4px; background: var(--card-strong); overflow: hidden; }
   .doc-text { padding: 15px 18px 13px; font-family: var(--serif); font-size: 15px; line-height: 1.65; }
-  .doc-cl { font-family: var(--mono); font-size: 12px; color: var(--muted); }
-  .doc-foot { margin: 0; padding: 8px 18px 9px; border-top: 1px solid var(--line); background: var(--tint); font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
+  .doc-cl { font-family: var(--label); font-size: 12px; color: var(--muted); }
+  .doc-foot { margin: 0; padding: 8px 18px 9px; border-top: 1px solid var(--line); background: var(--tint); font-family: var(--label); font-size: 10.5px; color: var(--muted); }
   del { color: var(--strike); text-decoration: line-through; }
   ins { color: var(--insert); text-decoration: underline; text-underline-offset: 2px; }
   mark { background: var(--red-wash); color: inherit; box-shadow: 0 0 0 3px var(--red-wash); }
@@ -467,13 +431,13 @@
   .house-figure { border: 1px solid var(--line-strong); border-radius: 4px; background: var(--card); box-shadow: var(--shadow-soft); padding: clamp(15px, 2vw, 24px); }
   .funnel { display: grid; grid-template-columns: minmax(0, 1.4fr) 48px minmax(0, .85fr); gap: 12px; align-items: center; }
   .funnel-box, .ba-panel { border: 1px solid var(--line-strong); border-radius: 4px; padding: 18px; background: var(--card-strong); }
-  .funnel-box .mono, .ba-panel .mono, .hub-label, .timeline .when, .path-label { margin: 0; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--muted); }
+  .funnel-box .mono, .ba-panel .mono, .hub-label, .timeline .when, .path-label { margin: 0; font-family: var(--label); font-size: 11px; letter-spacing: .06em; color: var(--muted); }
   .funnel-box h3, .ba-panel h3 { margin: 7px 0 0; font-size: 18px; line-height: 1.22; }
   .funnel-box p, .ba-panel p { margin: 6px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.45; }
   .ink-arrow { display: flex; align-items: center; justify-content: center; color: var(--ink); }
-  .gap-line { margin: 12px 0 0; border-top: 2px solid var(--red); padding-top: 8px; font-family: var(--mono); font-size: 11px; color: var(--red); text-align: center; }
+  .gap-line { margin: 12px 0 0; border-top: 2px solid var(--red); padding-top: 8px; font-family: var(--label); font-size: 11px; color: var(--red); text-align: center; }
   .before-after { display: grid; grid-template-columns: minmax(0,1fr) 92px minmax(0,1fr); gap: 14px; align-items: center; }
-  .edge { text-align: center; font-family: var(--mono); font-size: 10.5px; color: var(--ink); }
+  .edge { text-align: center; font-family: var(--label); font-size: 10.5px; color: var(--ink); }
   .edge svg { display: block; margin: 7px auto 0; color: var(--ink); }
   .figure-path { padding: 24px 18px 20px; }
   .path-line { height: 1px; background: var(--ink); margin: 24px 24px 0; position: relative; }
@@ -484,7 +448,7 @@
   .path-point b { display: block; font-size: 13px; line-height: 1.25; }
   .hub { position: relative; min-height: 390px; }
   .hub-center { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 132px; height: 132px; border: 1px solid var(--ink); border-radius: 50%; display: grid; place-items: center; text-align: center; font-size: 15px; font-weight: 600; z-index: 2; background: var(--card); }
-  .hub-center.mono { font-family: var(--mono); }
+  .hub-center.mono { font-family: var(--label); }
   .spoke { position: absolute; width: 30%; text-align: center; font-size: 13px; line-height: 1.3; }
   .spoke b { display: block; }
   .spoke .hub-label { display: block; margin-top: 3px; }
@@ -570,7 +534,7 @@
   html[data-mode="edit"] .pills::-webkit-scrollbar { display: none; }
   .editor-pill.editor-tool, select.editor-pill.editor-tool {
     min-width: 27px; height: 27px; padding: 0 8px; border: 1px solid var(--line-strong);
-    border-radius: 999px; background: var(--card); color: var(--ink); font: 600 10px/1 var(--mono);
+    border-radius: 999px; background: var(--card); color: var(--ink); font: 600 10px/1 var(--label);
     letter-spacing: .02em; align-items: center; justify-content: center; white-space: nowrap; flex: 0 0 auto;
   }
   select.editor-pill.editor-tool { appearance: auto; max-width: 88px; }
@@ -631,7 +595,7 @@
           <p class="fig-h">What the shield covers, and what it never covers</p>
           <div class="zones-fig"><div class="zf-a"><p class="zl">COVERED BY THE SHIELD</p><button class="zf-covered" type="button" data-pop="zone-careless"><b>Careless-decision suits</b><i>A shareholder sues the officer directly for money over a careless decision.</i><svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></button></div><div class="zf-mid"><span class="zf-rule"></span><span class="zf-line-label">THE CHARTER LINE</span><span class="zf-rule"></span></div><div class="zf-b"><p class="zl">NEVER COVERED</p><div class="zf-grid"><button class="zf-no" type="button" data-pop="zone-disloyalty"><b>Disloyalty or personal benefit</b><svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></button><button class="zf-no" type="button" data-pop="zone-bad-faith"><b>Bad faith</b><svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></button><button class="zf-no" type="button" data-pop="zone-company-sues"><b>The company itself sues</b><svg class="chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></button></div>
 </div></div>
-          <div class="statute"><div class="s-t"><span style="font-family: var(--mono); font-size: 11px; color: var(--muted);">§102(b)&nbsp;&nbsp;</span>(7) A provision eliminating or limiting the personal liability of a <ins>director or officer</ins> to the corporation or its stockholders for monetary damages for breach of fiduciary duty…</div><p class="s-f">Official source · delcode.delaware.gov · captured Aug 19, 2026 · highlight added</p></div>
+          <div class="statute"><div class="s-t"><span style="font-family: var(--label); font-size: 11px; color: var(--muted);">§102(b)&nbsp;&nbsp;</span>(7) A provision eliminating or limiting the personal liability of a <ins>director or officer</ins> to the corporation or its stockholders for monetary damages for breach of fiduciary duty…</div><p class="s-f">Official source · delcode.delaware.gov · captured Aug 19, 2026 · highlight added</p></div>
       </div>
         <div class="exp-side">
           <div class="qcard" data-editor-object><h4 data-editable>What can it never cover?</h4><p data-editable>The statute always leaves officers exposed for:</p><p data-editable>breaches of the duty of loyalty; acts or omissions not in good faith; intentional misconduct; knowing violations of law; and transactions from which the officer received an improper personal benefit. <a class="cite" href="#cite-102" data-pop="cite-102">8 Del. C. §102(b)(7)(i), (ii), (iv)</a></p><p data-editable>Unlike directors, officers also remain exposed in actions brought by the corporation or in its right. That means derivative claims stay live against officers. <a class="cite" href="#cite-102" data-pop="cite-102">8 Del. C. §102(b)(7)(v)</a></p><p data-editable>The provision also cannot reach an act or omission that occurred before it became effective.</p></div>
@@ -764,44 +728,43 @@
 
   var TOKENS =
     ':root{' +
-    '--dg-ink:var(--os-fg,#141413);' +
-    '--dg-paper:var(--os-bg,#ffffff);' +
-    '--dg-muted:#6b6759;' +
-    '--dg-accent:var(--os-accent,#1b365d);' +
-    '--dg-tint:#eef2f8;' +
-    '--dg-tint-2:#f4efe6;' +
-    '--dg-c-human:#3f7d4f;' +
-    '--dg-c-local:#6b4a97;' +
-    '--dg-c-agent:#8a6512;' +
-    '--dg-font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;' +
-    '--dg-font-serif:Charter,"Iowan Old Style",Georgia,"Times New Roman",serif;' +
+    '--dg-ink:var(--ink);' +
+    '--dg-paper:var(--card);' +
+    '--dg-muted:var(--muted);' +
+    '--dg-accent:var(--ink);' +
+    '--dg-tint:var(--tint);' +
+    '--dg-tint-2:var(--card);' +
+    '--dg-c-human:var(--ink);' +
+    '--dg-c-local:var(--muted);' +
+    '--dg-c-agent:var(--ink);' +
+    '--dg-font-label:var(--sans);' +
+    '--dg-font-body:var(--sans);' +
     '--dg-w:1.3;' +      /* the one stroke width. Rule 3: 1-1.5px. */
     '--dg-w-hair:0.9;' + /* zone containers and axes only */
     '}' +
     '@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){' +
-    '--dg-paper:var(--os-bg,#16171b);--dg-ink:var(--os-fg,#ece9e2);--dg-muted:#9a958a;' +
-    '--dg-accent:var(--os-accent,#8fb0d8);--dg-tint:#232833;--dg-tint-2:#2b2821;' +
-    '--dg-c-human:#7fb98d;--dg-c-local:#b096d8;--dg-c-agent:#d6ab55;}}' +
+    '--dg-paper:var(--card);--dg-ink:var(--ink);--dg-muted:var(--muted);' +
+    '--dg-accent:var(--ink);--dg-tint:var(--tint);--dg-tint-2:var(--card);' +
+    '--dg-c-human:var(--ink);--dg-c-local:var(--muted);--dg-c-agent:var(--ink);}}' +
     ':root[data-theme="dark"]{' +
-    '--dg-paper:var(--os-bg,#16171b);--dg-ink:var(--os-fg,#ece9e2);--dg-muted:#9a958a;' +
-    '--dg-accent:var(--os-accent,#8fb0d8);--dg-tint:#232833;--dg-tint-2:#2b2821;' +
-    '--dg-c-human:#7fb98d;--dg-c-local:#b096d8;--dg-c-agent:#d6ab55;}';
+    '--dg-paper:var(--card);--dg-ink:var(--ink);--dg-muted:var(--muted);' +
+    '--dg-accent:var(--ink);--dg-tint:var(--tint);--dg-tint-2:var(--card);' +
+    '--dg-c-human:var(--ink);--dg-c-local:var(--muted);--dg-c-agent:var(--ink);}';
 
   /* ═══ 3. THE TYPE SCALE ═══════════════════════════════════════════════
-     Read off the gold standards. Mono carries structure (node names, edge
-     names, zone names); the serif carries the human sentence under it.
+     Read off the gold standards. The Loxoto sans face carries both structural labels and explanatory text.
      charW is the FIRST GUESS only — the advance per character including
-     letter-spacing (JetBrains Mono is 0.6em). refit() below then measures
+     letter-spacing. refit() below measures
      what the browser actually rendered and re-wraps if the real font is
      wider, so a missing webfont can never push text out of its box. */
 
   var TYPE = {
-    node:  { px: 13,   charW: 8.35, cls: 'dg-t-node'  },  /* MONO CAPS, box titles */
-    sub:   { px: 11.5, charW: 6.95, cls: 'dg-t-sub'   },  /* serif, the plain-words line */
-    edge:  { px: 9.5,  charW: 6.30, cls: 'dg-t-edge'  },  /* MONO CAPS, every arrow */
-    zone:  { px: 10,   charW: 7.25, cls: 'dg-t-zone'  },  /* MONO CAPS, containers */
-    num:   { px: 11,   charW: 7.10, cls: 'dg-t-num'   },  /* MONO, step numbers */
-    big:   { px: 19,   charW: 12.05, cls: 'dg-t-big'  }   /* MONO CAPS, hub centres */
+    node:  { px: 13,   charW: 8.35, cls: 'dg-t-node'  },  /* compact sans caps, box titles */
+    sub:   { px: 11.5, charW: 6.95, cls: 'dg-t-sub'   },  /* sans, the plain-words line */
+    edge:  { px: 9.5,  charW: 6.30, cls: 'dg-t-edge'  },  /* compact sans caps, every arrow */
+    zone:  { px: 10,   charW: 7.25, cls: 'dg-t-zone'  },  /* compact sans caps, containers */
+    num:   { px: 11,   charW: 7.10, cls: 'dg-t-num'   },  /* compact sans, step numbers */
+    big:   { px: 19,   charW: 12.05, cls: 'dg-t-big'  }   /* compact sans caps, hub centres */
   };
 
   var CSS = TOKENS +
@@ -822,11 +785,10 @@
     '.dg-head-m{fill:var(--dg-muted);stroke:none}' +
     '.dg-head-a{fill:var(--dg-accent);stroke:none}' +
     '.dg-dot{fill:var(--dg-accent);stroke:none}' +
-    /* type — the family goes on the <svg> so text INHERITS it; putting it on
-       `.dg-svg text` would out-specify .dg-t-sub and silently kill the serif */
-    '.dg-svg{font-family:var(--dg-font-mono)}' +
+    /* type — the Loxoto sans face goes on the <svg> so text inherits it; component roles may still override weight and size */
+    '.dg-svg{font-family:var(--dg-font-label)}' +
     '.dg-t-node{font-size:13px;font-weight:500;letter-spacing:.04em;fill:var(--dg-ink)}' +
-    '.dg-t-sub{font-family:var(--dg-font-serif);' +
+    '.dg-t-sub{font-family:var(--dg-font-body);' +
     ' font-size:11.5px;letter-spacing:0;fill:var(--dg-muted)}' +
     '.dg-t-edge{font-size:9.5px;font-weight:500;letter-spacing:.06em;fill:var(--dg-muted)}' +
     '.dg-t-zone{font-size:10px;font-weight:500;letter-spacing:.12em;fill:var(--dg-muted)}' +
@@ -846,33 +808,36 @@
        This invisible duplicate of an interactive node's face sits last in
        paint order, so every pixel inside the rounded box is a reliable hit. */
     '.dg-nb-hit{fill:transparent;stroke:none;pointer-events:all}' +
-    '.dg-ba-gear{will-change:transform}.dg-ba-gear-face{' +
-    'fill:color-mix(in srgb,var(--dg-accent) 28%,var(--dg-paper));stroke:none}' +
-    '.dg-compare-col-face,.dg-compare-row-face{stroke:none}.dg-compare-col-neutral{fill:var(--dg-tint-2)}' +
-    '.dg-compare-col-accent{fill:color-mix(in srgb,var(--dg-accent) 15%,var(--dg-paper))}' +
-    '.dg-compare-head-neutral .dg-nb-face{fill:var(--dg-tint-2)}' +
-    '.dg-compare-head-accent .dg-nb-face{fill:color-mix(in srgb,var(--dg-accent) 24%,var(--dg-paper))}' +
-    '.dg-compare-head-accent .dg-nb-box{stroke:var(--dg-accent)}' +
-    '.dg-compare-head-accent .dg-nb-title{fill:var(--dg-accent)}' +
-    '.dg-compare-criterion{font-family:var(--dg-font-serif);font-size:12px;font-weight:700;' +
+    '.dg-ba-gear{will-change:transform}.dg-ba-gear-face{fill:var(--dg-tint);stroke:none}' +
+    '.dg-ba-frame,.dg-ba-gear-body,.dg-ba-gear-hub,.dg-hub-ring,.dg-fp-pole,.dg-gr-crank-arm{stroke:var(--dg-ink)}' +
+    '.dg-nb-box,.dg-leaf-box,.dg-zone-box{stroke:var(--line-strong)}' +
+    '.dg-compare-col-face,.dg-compare-row-face{stroke:none}' +
+    '.dg-compare-col-neutral,.dg-compare-col-accent{fill:var(--dg-paper)}' +
+    '.dg-compare-head-neutral .dg-nb-face,.dg-compare-head-accent .dg-nb-face{fill:var(--dg-tint)}' +
+    '.dg-compare-head-accent .dg-nb-box{stroke:var(--line-strong)}' +
+    '.dg-compare-head-accent .dg-nb-title{fill:var(--dg-ink)}' +
+    '.dg-compare-criterion{font-family:var(--dg-font-body);font-size:12px;font-weight:600;' +
     'letter-spacing:0;fill:var(--dg-ink)}' +
     '.dg-mx-face{fill:var(--dg-paper);stroke:transparent;stroke-width:2}' +
+    '.dg-mx-cell[data-q="0"] .dg-mx-face,.dg-mx-cell[data-q="1"] .dg-mx-face{stroke:var(--red);stroke-width:1}' +
+    '.dg-mx-cell[data-q="0"] .dg-mx-title,.dg-mx-cell[data-q="1"] .dg-mx-title{fill:var(--red)}' +
+    '.dg-clickable:hover .dg-nb-box,.dg-clickable:hover .dg-leaf-box,.dg-clickable:hover .dg-mx-face,' +
     '.dg-clickable:focus-visible .dg-nb-box,' +
     '.dg-clickable:focus-visible .dg-leaf-box,' +
     '.dg-clickable:focus-visible .dg-mx-face{' +
-    'stroke:var(--dg-accent);stroke-width:2.2}' +
+    'stroke:var(--red);stroke-width:1.5}' +
     '.dg-popover[hidden]{display:none}.dg-popover{position:absolute;inset:0;z-index:4;' +
-    'display:grid;place-items:center;padding:22px;background:color-mix(in srgb,var(--dg-paper) 72%,transparent);' +
-    'backdrop-filter:blur(3px)}.dg-popover-card{position:relative;width:min(460px,82%);' +
-    'padding:24px 26px 22px;background:var(--dg-paper);color:var(--dg-ink);border:1px solid var(--dg-accent);' +
-    'border-radius:10px;box-shadow:0 16px 40px color-mix(in srgb,var(--dg-ink) 18%,transparent);' +
-    'font-family:var(--dg-font-mono)}' +
-    '.dg-popover-kicker{margin:0 32px 8px 0;font:500 10px/1.2 var(--dg-font-mono);' +
-    'letter-spacing:.11em;color:var(--dg-accent)}.dg-popover-title{margin:0 32px 9px 0;' +
-    'font:600 20px/1.15 var(--dg-font-mono)}.dg-popover-body{' +
-    'margin:0;max-width:48ch;font:16px/1.48 var(--dg-font-serif);color:var(--dg-muted)}' +
+    'display:flex;align-items:center;justify-content:center;padding:22px;background:var(--scrim);' +
+    'backdrop-filter:none}.dg-popover-card{position:relative;width:min(460px,82%);' +
+    'padding:24px 26px 22px;background:var(--dg-paper);color:var(--dg-ink);border:1px solid var(--line-strong);' +
+    'border-radius:5px;box-shadow:var(--shadow);' +
+    'font-family:var(--dg-font-body)}' +
+    '.dg-popover-kicker{margin:0 32px 8px 0;font:500 10px/1.2 var(--dg-font-label);' +
+    'letter-spacing:.06em;color:var(--red)}.dg-popover-title{margin:0 32px 9px 0;' +
+    'font:600 20px/1.15 var(--dg-font-label)}.dg-popover-body{' +
+    'margin:0;max-width:48ch;font:16px/1.48 var(--dg-font-body);color:var(--dg-muted)}' +
     '.dg-popover-close{position:absolute;right:12px;top:10px;width:30px;height:30px;padding:0;' +
-    'border:0;background:transparent;color:var(--dg-ink);font:22px/1 var(--dg-font-mono);cursor:pointer}';
+    'border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--muted);font:18px/1 var(--dg-font-label);cursor:pointer}';
 
   function installCSS(doc) {
     doc = doc || document;
@@ -1047,7 +1012,7 @@
     return roundRectD(x, y, w, h, r);
   }
 
-  /* A titled node box: MONO CAPS title, optional serif sub-line beneath.
+  /* A titled node box: compact sans title, optional sans sub-line beneath.
      Text is fitted to the inner width, so the box is never overflowed.
      cat: null | 'human' | 'local' | 'agent' | 'accent'   (colour = category)
      tint: true paints the one allowed pale category fill. */
