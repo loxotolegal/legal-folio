@@ -33,6 +33,24 @@
     --shadow: 0 22px 60px rgba(0, 0, 0, 0.6);
     --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.35);
   }
+/* Embedded diagram-kit runs on house tokens — the vendored --dg-* palette is
+   overridden here (round 11; same technique as the harmonized roster). */
+:root, [data-theme="light"], [data-theme="dark"] {
+  --dg-ink: var(--ink) !important;
+  --dg-paper: var(--card) !important;
+  --dg-muted: var(--muted) !important;
+  --dg-accent: var(--ink) !important;
+  --dg-tint: var(--tint) !important;
+  --dg-tint-2: var(--card-strong) !important;
+  --dg-c-human: var(--ink) !important;
+  --dg-c-local: var(--muted) !important;
+  --dg-c-agent: var(--ink) !important;
+  --dg-font-mono: var(--mono) !important;
+  --dg-font-serif: var(--sans) !important;
+  --dg-w: 1 !important;
+  --dg-w-hair: 1 !important;
+}
+
 
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
@@ -176,6 +194,24 @@
     --shadow: 0 22px 60px rgba(0, 0, 0, 0.6);
     --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.35);
   }
+/* Embedded diagram-kit runs on house tokens — the vendored --dg-* palette is
+   overridden here (round 11; same technique as the harmonized roster). */
+:root, [data-theme="light"], [data-theme="dark"] {
+  --dg-ink: var(--ink) !important;
+  --dg-paper: var(--card) !important;
+  --dg-muted: var(--muted) !important;
+  --dg-accent: var(--ink) !important;
+  --dg-tint: var(--tint) !important;
+  --dg-tint-2: var(--card-strong) !important;
+  --dg-c-human: var(--ink) !important;
+  --dg-c-local: var(--muted) !important;
+  --dg-c-agent: var(--ink) !important;
+  --dg-font-mono: var(--mono) !important;
+  --dg-font-serif: var(--sans) !important;
+  --dg-w: 1 !important;
+  --dg-w-hair: 1 !important;
+}
+
 
   * { box-sizing: border-box; }
   html, body { height: 100%; }
